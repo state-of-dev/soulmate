@@ -2,14 +2,38 @@ import { NextRequest, NextResponse } from 'next/server'
 import { writeFile, readFile } from 'fs/promises'
 import { join } from 'path'
 
+const CONTENT_KEY = 'site_content'
 const CONTENT_FILE = join(process.cwd(), 'lib/content-data.json')
+
+// Función para verificar si Redis está disponible
+const isRedisAvailable = () => {
+  return process.env.KV_REST_API_URL && process.env.KV_REST_API_TOKEN
+}
 
 export async function GET() {
   try {
-    const content = await readFile(CONTENT_FILE, 'utf8')
-    return NextResponse.json(JSON.parse(content))
-  } catch (error) {
-    // Si no existe el archivo, devolver contenido por defecto
+    // Si Redis está disponible, usarlo
+    if (isRedisAvailable()) {
+      const { Redis } = await import('@upstash/redis')
+      const redis = new Redis({
+        url: process.env.KV_REST_API_URL!,
+        token: process.env.KV_REST_API_TOKEN!,
+      })
+      const content = await redis.get(CONTENT_KEY)
+      if (content) {
+        return NextResponse.json(content)
+      }
+    } else {
+      // En desarrollo, usar archivo local
+      try {
+        const content = await readFile(CONTENT_FILE, 'utf8')
+        return NextResponse.json(JSON.parse(content))
+      } catch (fileError) {
+        // Si no existe el archivo, continuar con contenido por defecto
+      }
+    }
+    
+    // Si no hay contenido guardado, devolver contenido por defecto
     return NextResponse.json({
       navigation: {
         logo: "Momentos Eternos",
@@ -124,7 +148,20 @@ export async function GET() {
 export async function POST(request: NextRequest) {
   try {
     const content = await request.json()
-    await writeFile(CONTENT_FILE, JSON.stringify(content, null, 2))
+    
+    // Si Redis está disponible, usarlo (production)
+    if (isRedisAvailable()) {
+      const { Redis } = await import('@upstash/redis')
+      const redis = new Redis({
+        url: process.env.KV_REST_API_URL!,
+        token: process.env.KV_REST_API_TOKEN!,
+      })
+      await redis.set(CONTENT_KEY, content)
+    } else {
+      // En desarrollo, usar archivo local
+      await writeFile(CONTENT_FILE, JSON.stringify(content, null, 2))
+    }
+    
     return NextResponse.json({ success: true })
   } catch (error) {
     console.error('Error saving content:', error)

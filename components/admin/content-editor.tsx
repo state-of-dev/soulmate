@@ -141,6 +141,8 @@ export default function ContentEditor() {
     
     try {
       setSaving(true)
+      console.log('Saving content:', content)
+      
       const response = await fetch('/api/content', {
         method: 'POST',
         headers: {
@@ -150,15 +152,29 @@ export default function ContentEditor() {
       })
       
       if (response.ok) {
+        const result = await response.json()
+        console.log('Save response:', result)
+        
         // Limpiar cache y disparar evento de actualización
         clearContentCache()
         window.dispatchEvent(new CustomEvent('content-updated'))
-        console.log('Content saved successfully')
+        
+        // Disparar evento para comunicación entre pestañas
+        localStorage.setItem('content-update-trigger', Date.now().toString())
+        localStorage.removeItem('content-update-trigger')
+        
+        console.log('Content saved successfully and cache cleared')
+        
+        // Mostrar alguna confirmación visual
+        alert('Contenido guardado exitosamente')
       } else {
-        throw new Error('Failed to save content')
+        const errorText = await response.text()
+        console.error('Save failed:', response.status, errorText)
+        throw new Error(`Failed to save content: ${response.status}`)
       }
     } catch (error) {
       console.error('Error saving content:', error)
+      alert('Error al guardar el contenido: ' + error.message)
     } finally {
       setSaving(false)
     }

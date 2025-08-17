@@ -49,12 +49,25 @@ export const useContent = () => {
 
     // Escuchar eventos de actualización de contenido
     const handleContentUpdate = () => {
+      console.log('Content update event received, reloading...');
       loadContent();
     };
 
     window.addEventListener('content-updated', handleContentUpdate);
+    
+    // También escuchar cambios en el localStorage para detectar cambios entre pestañas
+    const handleStorageChange = (e) => {
+      if (e.key === 'content-update-trigger') {
+        console.log('Storage change detected, reloading content...');
+        loadContent();
+      }
+    };
+    
+    window.addEventListener('storage', handleStorageChange);
+    
     return () => {
       window.removeEventListener('content-updated', handleContentUpdate);
+      window.removeEventListener('storage', handleStorageChange);
     };
   }, []);
 
