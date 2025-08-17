@@ -142,6 +142,12 @@ export async function GET() {
         }
       }
     })
+  } catch (error) {
+    console.error('Error loading content:', error)
+    return NextResponse.json(
+      { error: 'Failed to load content' }, 
+      { status: 500 }
+    )
   }
 }
 
