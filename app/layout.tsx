@@ -2,7 +2,7 @@ import type React from "react"
 import type { Metadata } from "next"
 import { Cormorant_Garamond, Playfair_Display } from "next/font/google"
 import "./globals.css"
-import Navbar from "@/components/navbar"
+import ConditionalNavbar from "@/components/conditional-navbar"
 import { ThemeProvider } from "@/components/theme-provider"
 
 const cormorant = Cormorant_Garamond({
@@ -27,7 +27,7 @@ export default function RootLayout({
     <html lang="es" className="scroll-smooth">
       <body className={`${cormorant.variable} ${playfair.variable} font-cormorant`}>
         <ThemeProvider attribute="class" defaultTheme="light">
-          <Navbar />
+          <ConditionalNavbar />
           {children}
         </ThemeProvider>
       </body>
