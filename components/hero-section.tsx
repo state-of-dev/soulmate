@@ -5,12 +5,14 @@ import { Button } from "@/components/ui/button"
 import { motion, AnimatePresence } from "framer-motion"
 import { Heart } from "lucide-react"
 import { useContent } from "@/hooks/useContent"
+import { useMediaUrls } from "@/hooks/useMediaUrls"
 
 export default function HeroSection() {
   const [mounted, setMounted] = useState(false)
   const [currentIndex, setCurrentIndex] = useState(0)
 
   const content = useContent()
+  const mediaUrls = useMediaUrls()
   const services = content.hero.services
 
   useEffect(() => {
@@ -59,7 +61,7 @@ export default function HeroSection() {
       className="relative min-h-screen flex items-center justify-center bg-cover bg-center py-32"
       style={{
         backgroundImage:
-          "linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.4)), url('/media/hero-imagen.png')",
+          `linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.4)), url('${mediaUrls.heroImage}')`,
       }}
     >
       <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/40 to-black/60" />

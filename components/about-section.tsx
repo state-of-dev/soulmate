@@ -5,9 +5,11 @@ import Image from "next/image"
 import { useInView } from "react-intersection-observer"
 import { Camera, Heart, Users, Award } from "lucide-react"
 import { useContent } from "@/hooks/useContent"
+import { useMediaUrls } from "@/hooks/useMediaUrls"
 
 export default function AboutSection() {
   const content = useContent()
+  const mediaUrls = useMediaUrls()
   const { ref, inView } = useInView({
     threshold: 0.1,
     triggerOnce: true,
@@ -71,7 +73,7 @@ export default function AboutSection() {
             <div className="order-1 md:order-2 relative">
               <div className="relative h-96 md:h-[500px] rounded-2xl overflow-hidden shadow-2xl">
                 <Image
-                  src="/media/about-estilo.png"
+                  src={mediaUrls.aboutStyle}
                   alt={content.about.sections.style.alt}
                   fill
                   className="object-cover"
@@ -89,7 +91,7 @@ export default function AboutSection() {
             <div className="relative">
               <div className="relative h-96 md:h-[500px] rounded-2xl overflow-hidden shadow-2xl">
                 <Image
-                  src="/media/about-trabajo.png"
+                  src={mediaUrls.aboutWork}
                   alt={content.about.sections.work.alt}
                   fill
                   className="object-cover"

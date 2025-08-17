@@ -9,6 +9,8 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Play, ChevronLeft, ChevronRight, X } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { useContent } from "@/hooks/useContent"
+import { useMediaUrls } from "@/hooks/useMediaUrls"
+import VideoAudioToggle from "@/components/video-audio-toggle"
 
 type VideoItem = {
   id: string
@@ -27,36 +29,55 @@ type GalleryItem = {
 
 export default function PortfolioSection() {
   const content = useContent()
+  const mediaUrls = useMediaUrls()
   const [currentVideo, setCurrentVideo] = useState<VideoItem | null>(null)
   const [currentSlide, setCurrentSlide] = useState(0)
   const [activeTab, setActiveTab] = useState("recap")
-  const iframeRef = useRef<HTMLIFrameElement>(null)
+  const [videoLoading, setVideoLoading] = useState(true)
+  const videoRef = useRef<HTMLVideoElement>(null)
 
   const { ref, inView } = useInView({
     threshold: 0.1,
     triggerOnce: true,
   })
 
-  // Control de YouTube Player para pausar/reanudar al cambiar tabs
+  // Control de video para pausar/reanudar al cambiar tabs
   useEffect(() => {
-    if (activeTab === "recap") {
-      // Reanudar video al volver a la tab recap
-      if (iframeRef.current) {
-        iframeRef.current.contentWindow?.postMessage(
-          '{"event":"command","func":"playVideo","args":""}',
-          '*'
-        )
+    if (activeTab === "recap" && videoRef.current && mediaUrls.tabVideo) {
+      // Auto-play video al entrar a la tab recap (mantener muted)
+      const video = videoRef.current
+      video.play().catch(console.error)
+    } else if (activeTab !== "recap" && videoRef.current) {
+      // Pausar video al salir de la tab recap (mantiene la posición)
+      videoRef.current.pause()
+    }
+  }, [activeTab, mediaUrls.tabVideo])
+
+  // Auto-play cuando el video se carga por primera vez
+  useEffect(() => {
+    if (videoRef.current && activeTab === "recap" && mediaUrls.tabVideo) {
+      const video = videoRef.current
+      const handleLoadedData = () => {
+        if (activeTab === "recap") {
+          video.play().catch(console.error)
+        }
       }
-    } else {
-      // Pausar video al salir de la tab recap
-      if (iframeRef.current) {
-        iframeRef.current.contentWindow?.postMessage(
-          '{"event":"command","func":"pauseVideo","args":""}',
-          '*'
-        )
+      
+      if (video.readyState >= 3) { // HAVE_FUTURE_DATA
+        handleLoadedData()
+      } else {
+        video.addEventListener('loadeddata', handleLoadedData)
+        return () => video.removeEventListener('loadeddata', handleLoadedData)
       }
     }
-  }, [activeTab])
+  }, [mediaUrls.tabVideo, activeTab])
+
+  // Reset loading cuando cambie la URL del video
+  useEffect(() => {
+    if (mediaUrls.tabVideo) {
+      setVideoLoading(true)
+    }
+  }, [mediaUrls.tabVideo])
 
 
 
@@ -64,14 +85,14 @@ export default function PortfolioSection() {
     id: (index + 1).toString(),
     title: video.title,
     description: video.description,
-    thumbnail: `/media/tab-imagenes-${index + 1}.png`,
-    videoUrl: "/media/tab-video.mp4",
+    thumbnail: mediaUrls.tabImages[index] || `/media/tab-imagenes-${index + 1}.png`,
+    videoUrl: mediaUrls.tabVideo || "/media/tab-video.mp4",
   }))
 
   const galleryItems: GalleryItem[] = content.portfolio.gallery.map((item, index) => ({
     id: `g${index + 1}`,
     title: item.title,
-    image: `/media/tab-imagenes-${index + 1}.png`,
+    image: mediaUrls.tabImages[index] || `/media/tab-imagenes-${index + 1}.png`,
     description: item.description,
   }))
 
@@ -113,16 +134,54 @@ export default function PortfolioSection() {
                 <Card className="overflow-hidden">
                   <CardContent className="p-0">
                     <div className="relative aspect-video">
-                      <iframe
-                        ref={iframeRef}
-                        src="https://www.youtube-nocookie.com/embed/6L0xLhs5_fg?si=nVJDYQg3U75tl4v2&vq=hd1080&enablejsapi=1"
-                        title="YouTube video player"
-                        frameBorder="0"
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                        referrerPolicy="strict-origin-when-cross-origin"
-                        allowFullScreen
-                        className="w-full h-full rounded-lg"
-                      />
+                      <>
+                        {/* Loader mientras carga el video */}
+                        {videoLoading && (
+                          <div className="absolute inset-0 w-full h-full rounded-lg bg-black flex items-center justify-center z-10">
+                            <div className="text-center text-white">
+                              <motion.div
+                                animate={{ rotate: 360 }}
+                                transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
+                                className="w-12 h-12 border-4 border-pearl-200 border-t-transparent rounded-full mx-auto mb-4"
+                              />
+                              <p className="text-lg font-medium">Cargando video...</p>
+                            </div>
+                          </div>
+                        )}
+
+                        {/* Video */}
+                        {mediaUrls.tabVideo && (
+                          <video
+                            ref={videoRef}
+                            controls
+                            muted={true}
+                            playsInline
+                            preload="metadata"
+                            className="w-full h-full rounded-lg bg-black"
+                            onLoadStart={() => setVideoLoading(true)}
+                            onLoadedData={() => {
+                              setVideoLoading(false)
+                              if (activeTab === "recap" && videoRef.current) {
+                                videoRef.current.play().catch(console.error)
+                              }
+                            }}
+                            onError={() => setVideoLoading(false)}
+                          >
+                            <source src={mediaUrls.tabVideo} type="video/mp4" />
+                            Tu navegador no soporta el elemento video.
+                          </video>
+                        )}
+                      </>
+                      
+                      {/* Botón de audio del video en la esquina superior derecha */}
+                      {mediaUrls.tabVideo && (
+                        <div className="absolute top-4 right-4 z-10">
+                          <VideoAudioToggle 
+                            videoRef={videoRef}
+                            className="relative"
+                          />
+                        </div>
+                      )}
                     </div>
                     <div className="p-6">
                       <h3 className="font-bold text-2xl mb-2">{content.portfolio.recap.title}</h3>
@@ -154,7 +213,7 @@ export default function PortfolioSection() {
                     <div className="relative group">
                       <div className="relative h-48 md:h-56 lg:h-64">
                         <Image
-                          src={`/media/tab-gif-${index + 1}.gif`}
+                          src={mediaUrls.tabGifs[index] || `/media/tab-gif-${index + 1}.gif`}
                           alt={video.title}
                           fill
                           className="object-cover"
