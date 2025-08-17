@@ -45,6 +45,13 @@ export async function GET() {
           { name: "Contáctanos", href: "#contacto" }
         ]
       },
+      media: {
+        hero_background: '',
+        about_style_image: '',
+        about_work_image: '',
+        portfolio_recap_video: '',
+        gallery_images: []
+      },
       hero: {
         title: "Soulmate",
         subtitle: "Capturamos los momentos más especiales de tu vida con un toque artístico único",
@@ -129,16 +136,33 @@ export async function GET() {
       contact: {
         title: "Contacto",
         subtitle: "¿Listo para capturar tu momento especial? Conversemos sobre tu proyecto",
+        description: "Cuéntanos sobre tu boda y cómo podemos ayudarte a capturar esos momentos especiales",
         form: {
-          name: "Nombre completo",
-          email: "Correo electrónico", 
-          message: "Cuéntanos sobre tu evento...",
-          submit: "Enviar mensaje"
+          title: "Solicita una Cotización",
+          name: "Tu nombre",
+          email: "tu@email.com",
+          phone: "+34 600 000 000",
+          date: "Selecciona una fecha",
+          package: "Selecciona un paquete",
+          message: "Cuéntanos sobre tu boda y cualquier detalle importante...",
+          submit: "Solicitar Cotización"
         },
         info: {
-          phone: "+1 (555) 123-4567",
-          email: "hola@soulmate.com",
-          location: "Ciudad, País"
+          title: "Información de Contacto",
+          email: "info@momentoseternos.com",
+          phone: "+55 60 19 75 32",
+          location: "CDMX, México",
+          locationDetail: "(Disponibles para viajes nacionales e internacionales)"
+        },
+        schedule: {
+          title: "Horario de Atención",
+          description: "Estamos disponibles para consultas y reuniones:",
+          weekdays: "Lunes - Viernes:",
+          weekdaysHours: "9:00 - 19:00",
+          saturday: "Sábados:",
+          saturdayHours: "10:00 - 14:00",
+          sunday: "Cerrado",
+          note: "* También disponibles para reuniones virtuales fuera del horario habitual, previa cita."
         }
       }
     })

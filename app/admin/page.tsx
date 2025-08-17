@@ -1,16 +1,12 @@
 "use client"
 
-import { useState } from 'react'
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
-import { Settings, FileImage, Type } from 'lucide-react'
-import MediaManager from '@/components/admin/media-manager'
+import { Settings } from 'lucide-react'
 import ContentEditor from '@/components/admin/content-editor'
 import AdminAuth from '@/components/admin/admin-auth'
 
 export default function AdminPage() {
-  const [activeTab, setActiveTab] = useState('media')
 
   return (
     <AdminAuth>
@@ -39,53 +35,20 @@ export default function AdminPage() {
         </div>
 
         {/* Main Content */}
-        <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
-          <TabsList className="grid w-full grid-cols-2 lg:w-auto lg:grid-cols-2">
-            <TabsTrigger value="media" className="flex items-center gap-2">
-              <FileImage className="h-4 w-4" />
-              <span className="hidden sm:inline">Medios</span>
-            </TabsTrigger>
-            <TabsTrigger value="content" className="flex items-center gap-2">
-              <Type className="h-4 w-4" />
-              <span className="hidden sm:inline">Contenido</span>
-            </TabsTrigger>
-          </TabsList>
-
-          <TabsContent value="media" className="space-y-6">
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <FileImage className="h-5 w-5" />
-                  Gestión de Medios
-                </CardTitle>
-                <CardDescription>
-                  Sube, organiza y gestiona imágenes, GIFs y videos en Vercel Blob Storage
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <MediaManager />
-              </CardContent>
-            </Card>
-          </TabsContent>
-
-          <TabsContent value="content" className="space-y-6">
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <Type className="h-5 w-5" />
-                  Editor de Contenido
-                </CardTitle>
-                <CardDescription>
-                  Edita textos, títulos y descripciones del sitio web
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <ContentEditor />
-              </CardContent>
-            </Card>
-          </TabsContent>
-
-        </Tabs>
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <Settings className="h-5 w-5" />
+              Editor de Contenido y Medios
+            </CardTitle>
+            <CardDescription>
+              Edita textos e imágenes del sitio web en una sola interfaz
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <ContentEditor />
+          </CardContent>
+        </Card>
       </div>
     </div>
     </AdminAuth>

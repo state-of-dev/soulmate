@@ -11,6 +11,7 @@ import { Badge } from '@/components/ui/badge'
 import { Save, RotateCcw, Eye, Type, Home, User, Briefcase, Mail } from 'lucide-react'
 import { motion } from 'framer-motion'
 import { clearContentCache } from '@/lib/content-cache'
+import MediaUpload from './media-upload'
 
 interface ContentData {
   navigation: {
@@ -19,6 +20,13 @@ interface ContentData {
       name: string
       href: string
     }>
+  }
+  media: {
+    hero_background?: string
+    about_style_image?: string
+    about_work_image?: string
+    portfolio_recap_video?: string
+    gallery_images?: string[]
   }
   hero: {
     title: string
@@ -83,16 +91,33 @@ interface ContentData {
   contact: {
     title: string
     subtitle: string
+    description: string
     form: {
+      title: string
       name: string
       email: string
+      phone: string
+      date: string
+      package: string
       message: string
       submit: string
     }
     info: {
-      phone: string
+      title: string
       email: string
+      phone: string
       location: string
+      locationDetail: string
+    }
+    schedule: {
+      title: string
+      description: string
+      weekdays: string
+      weekdaysHours: string
+      saturday: string
+      saturdayHours: string
+      sunday: string
+      note: string
     }
   }
 }
@@ -125,6 +150,92 @@ export default function ContentEditor() {
             { name: "Paquetes", href: "#paquetes" },
             { name: "Contáctanos", href: "#contacto" }
           ]
+        }
+      }
+      
+      // Ensure media structure exists
+      if (!contentData.media) {
+        contentData.media = {
+          hero_background: '',
+          about_style_image: '',
+          about_work_image: '',
+          portfolio_recap_video: '',
+          gallery_images: []
+        }
+      }
+
+      // Ensure contact structure exists
+      if (!contentData.contact) {
+        contentData.contact = {
+          title: "Contacto",
+          subtitle: "¿Listo para capturar tu momento especial? Conversemos sobre tu proyecto",
+          description: "Cuéntanos sobre tu boda y cómo podemos ayudarte a capturar esos momentos especiales",
+          form: {
+            title: "Solicita una Cotización",
+            name: "Tu nombre",
+            email: "tu@email.com",
+            phone: "+34 600 000 000",
+            date: "Selecciona una fecha",
+            package: "Selecciona un paquete",
+            message: "Cuéntanos sobre tu boda y cualquier detalle importante...",
+            submit: "Solicitar Cotización"
+          },
+          info: {
+            title: "Información de Contacto",
+            email: "info@momentoseternos.com",
+            phone: "+55 60 19 75 32",
+            location: "CDMX, México",
+            locationDetail: "(Disponibles para viajes nacionales e internacionales)"
+          },
+          schedule: {
+            title: "Horario de Atención",
+            description: "Estamos disponibles para consultas y reuniones:",
+            weekdays: "Lunes - Viernes:",
+            weekdaysHours: "9:00 - 19:00",
+            saturday: "Sábados:",
+            saturdayHours: "10:00 - 14:00",
+            sunday: "Cerrado",
+            note: "* También disponibles para reuniones virtuales fuera del horario habitual, previa cita."
+          }
+        }
+      }
+
+      // Ensure contact.schedule exists even if contact exists
+      if (!contentData.contact.schedule) {
+        contentData.contact.schedule = {
+          title: "Horario de Atención",
+          description: "Estamos disponibles para consultas y reuniones:",
+          weekdays: "Lunes - Viernes:",
+          weekdaysHours: "9:00 - 19:00",
+          saturday: "Sábados:",
+          saturdayHours: "10:00 - 14:00",
+          sunday: "Cerrado",
+          note: "* También disponibles para reuniones virtuales fuera del horario habitual, previa cita."
+        }
+      }
+
+      // Ensure contact.form exists
+      if (!contentData.contact.form) {
+        contentData.contact.form = {
+          title: "Solicita una Cotización",
+          name: "Tu nombre",
+          email: "tu@email.com",
+          phone: "+34 600 000 000",
+          date: "Selecciona una fecha",
+          package: "Selecciona un paquete",
+          message: "Cuéntanos sobre tu boda y cualquier detalle importante...",
+          submit: "Solicitar Cotización"
+        }
+      }
+
+      // Ensure contact.info exists
+      if (!contentData.contact.info) {
+        contentData.contact.info = {
+          title: "Información de Contacto",
+          email: "info@momentoseternos.com",
+          phone: "+55 60 19 75 32",
+          location: "CDMX, México",
+          locationDetail: "(Disponibles para viajes nacionales e internacionales)"
         }
       }
       
@@ -212,7 +323,7 @@ export default function ContentEditor() {
     )
   }
 
-  if (!content || !content.navigation) {
+  if (!content || !content.navigation || !content.media || !content.contact || !content.contact.schedule) {
     return (
       <div className="text-center py-8 text-red-600">
         Error al cargar el contenido
@@ -385,6 +496,16 @@ export default function ContentEditor() {
                     />
                   </div>
                 </div>
+
+                <Separator />
+
+                <MediaUpload
+                  label="Imagen/Video de Fondo Hero"
+                  description="Imagen o video que aparece de fondo en la sección principal"
+                  currentUrl={content.media.hero_background}
+                  onUpload={(url) => updateContent('media.hero_background', url)}
+                  acceptedTypes="image/*,video/*"
+                />
               </CardContent>
             </Card>
           </motion.div>
@@ -437,6 +558,14 @@ export default function ContentEditor() {
                   ))}
                 </div>
 
+                <MediaUpload
+                  label="Imagen para 'Nuestro Estilo'"
+                  description="Imagen que acompaña la sección de estilo"
+                  currentUrl={content.media.about_style_image}
+                  onUpload={(url) => updateContent('media.about_style_image', url)}
+                  acceptedTypes="image/*"
+                />
+
                 <Separator />
 
                 <div>
@@ -455,6 +584,14 @@ export default function ContentEditor() {
                     rows={2}
                   />
                 </div>
+
+                <MediaUpload
+                  label="Imagen para 'Cómo Trabajamos'"
+                  description="Imagen que acompaña la sección del proceso de trabajo"
+                  currentUrl={content.media.about_work_image}
+                  onUpload={(url) => updateContent('media.about_work_image', url)}
+                  acceptedTypes="image/*"
+                />
               </CardContent>
             </Card>
           </motion.div>
@@ -507,6 +644,14 @@ export default function ContentEditor() {
                     rows={2}
                   />
                 </div>
+
+                <MediaUpload
+                  label="Video Recap Principal"
+                  description="Video que se reproduce en la sección de portafolio"
+                  currentUrl={content.media.portfolio_recap_video}
+                  onUpload={(url) => updateContent('media.portfolio_recap_video', url)}
+                  acceptedTypes="video/*"
+                />
               </CardContent>
             </Card>
           </motion.div>
@@ -526,7 +671,7 @@ export default function ContentEditor() {
               <CardContent className="space-y-4">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
-                    <Label>Título</Label>
+                    <Label>Título Principal</Label>
                     <Input
                       value={content.contact.title}
                       onChange={(e) => updateContent('contact.title', e.target.value)}
@@ -541,30 +686,206 @@ export default function ContentEditor() {
                   </div>
                 </div>
 
+                <div>
+                  <Label>Descripción</Label>
+                  <Textarea
+                    value={content.contact.description}
+                    onChange={(e) => updateContent('contact.description', e.target.value)}
+                    rows={2}
+                  />
+                </div>
+
                 <Separator />
 
                 <div>
-                  <Label>Información de Contacto</Label>
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  <Label className="text-lg font-semibold">Formulario de Contacto</Label>
+                  <div className="grid grid-cols-2 gap-4 mt-2">
                     <div>
-                      <Label className="text-sm">Teléfono</Label>
+                      <Label>Título del Formulario</Label>
                       <Input
-                        value={content.contact.info.phone}
-                        onChange={(e) => updateContent('contact.info.phone', e.target.value)}
+                        value={content.contact.form.title}
+                        onChange={(e) => updateContent('contact.form.title', e.target.value)}
                       />
                     </div>
                     <div>
-                      <Label className="text-sm">Email</Label>
+                      <Label>Texto del Botón</Label>
+                      <Input
+                        value={content.contact.form.submit}
+                        onChange={(e) => updateContent('contact.form.submit', e.target.value)}
+                      />
+                    </div>
+                  </div>
+                  
+                  <div className="grid grid-cols-2 gap-4 mt-4">
+                    <div>
+                      <Label>Placeholder - Nombre</Label>
+                      <Input
+                        value={content.contact.form.name}
+                        onChange={(e) => updateContent('contact.form.name', e.target.value)}
+                      />
+                    </div>
+                    <div>
+                      <Label>Placeholder - Email</Label>
+                      <Input
+                        value={content.contact.form.email}
+                        onChange={(e) => updateContent('contact.form.email', e.target.value)}
+                      />
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-2 gap-4 mt-4">
+                    <div>
+                      <Label>Placeholder - Teléfono</Label>
+                      <Input
+                        value={content.contact.form.phone}
+                        onChange={(e) => updateContent('contact.form.phone', e.target.value)}
+                      />
+                    </div>
+                    <div>
+                      <Label>Placeholder - Fecha</Label>
+                      <Input
+                        value={content.contact.form.date}
+                        onChange={(e) => updateContent('contact.form.date', e.target.value)}
+                      />
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-2 gap-4 mt-4">
+                    <div>
+                      <Label>Placeholder - Paquete</Label>
+                      <Input
+                        value={content.contact.form.package}
+                        onChange={(e) => updateContent('contact.form.package', e.target.value)}
+                      />
+                    </div>
+                    <div>
+                      <Label>Placeholder - Mensaje</Label>
+                      <Input
+                        value={content.contact.form.message}
+                        onChange={(e) => updateContent('contact.form.message', e.target.value)}
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                <Separator />
+
+                <div>
+                  <Label className="text-lg font-semibold">Información de Contacto</Label>
+                  
+                  <div className="mt-2">
+                    <Label>Título de la Sección</Label>
+                    <Input
+                      value={content.contact.info.title}
+                      onChange={(e) => updateContent('contact.info.title', e.target.value)}
+                    />
+                  </div>
+
+                  <div className="grid grid-cols-2 gap-4 mt-4">
+                    <div>
+                      <Label>Email de Contacto</Label>
                       <Input
                         value={content.contact.info.email}
                         onChange={(e) => updateContent('contact.info.email', e.target.value)}
                       />
                     </div>
                     <div>
-                      <Label className="text-sm">Ubicación</Label>
+                      <Label>Teléfono</Label>
+                      <Input
+                        value={content.contact.info.phone}
+                        onChange={(e) => updateContent('contact.info.phone', e.target.value)}
+                      />
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-2 gap-4 mt-4">
+                    <div>
+                      <Label>Ubicación</Label>
                       <Input
                         value={content.contact.info.location}
                         onChange={(e) => updateContent('contact.info.location', e.target.value)}
+                      />
+                    </div>
+                    <div>
+                      <Label>Detalle de Ubicación</Label>
+                      <Input
+                        value={content.contact.info.locationDetail}
+                        onChange={(e) => updateContent('contact.info.locationDetail', e.target.value)}
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                <Separator />
+
+                <div>
+                  <Label className="text-lg font-semibold">Horarios de Atención</Label>
+                  
+                  <div className="grid grid-cols-2 gap-4 mt-2">
+                    <div>
+                      <Label>Título de Horarios</Label>
+                      <Input
+                        value={content.contact.schedule.title}
+                        onChange={(e) => updateContent('contact.schedule.title', e.target.value)}
+                      />
+                    </div>
+                    <div>
+                      <Label>Descripción</Label>
+                      <Input
+                        value={content.contact.schedule.description}
+                        onChange={(e) => updateContent('contact.schedule.description', e.target.value)}
+                      />
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-2 gap-4 mt-4">
+                    <div>
+                      <Label>Días de Semana</Label>
+                      <Input
+                        value={content.contact.schedule.weekdays}
+                        onChange={(e) => updateContent('contact.schedule.weekdays', e.target.value)}
+                      />
+                    </div>
+                    <div>
+                      <Label>Horario Semana</Label>
+                      <Input
+                        value={content.contact.schedule.weekdaysHours}
+                        onChange={(e) => updateContent('contact.schedule.weekdaysHours', e.target.value)}
+                      />
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-2 gap-4 mt-4">
+                    <div>
+                      <Label>Sábados</Label>
+                      <Input
+                        value={content.contact.schedule.saturday}
+                        onChange={(e) => updateContent('contact.schedule.saturday', e.target.value)}
+                      />
+                    </div>
+                    <div>
+                      <Label>Horario Sábados</Label>
+                      <Input
+                        value={content.contact.schedule.saturdayHours}
+                        onChange={(e) => updateContent('contact.schedule.saturdayHours', e.target.value)}
+                      />
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-2 gap-4 mt-4">
+                    <div>
+                      <Label>Domingos</Label>
+                      <Input
+                        value={content.contact.schedule.sunday}
+                        onChange={(e) => updateContent('contact.schedule.sunday', e.target.value)}
+                      />
+                    </div>
+                    <div>
+                      <Label>Nota Adicional</Label>
+                      <Textarea
+                        value={content.contact.schedule.note}
+                        onChange={(e) => updateContent('contact.schedule.note', e.target.value)}
+                        rows={2}
                       />
                     </div>
                   </div>
