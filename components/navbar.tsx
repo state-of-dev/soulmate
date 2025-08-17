@@ -26,6 +26,12 @@ export default function Navbar() {
   }, [])
 
   const content = useContent()
+  
+  // Handle loading state and ensure navigation exists
+  if (!content || !content.navigation || !content.navigation.links) {
+    return null // or a loading skeleton
+  }
+  
   const navLinks = content.navigation.links
 
   const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
