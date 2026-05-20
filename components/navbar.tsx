@@ -53,7 +53,7 @@ export default function Navbar() {
         isScrolled ? "bg-black/90 backdrop-blur-xl" : "bg-black/70 backdrop-blur-sm"
       }`}
     >
-      <div className="grid h-[72px] grid-cols-[1fr_auto_1fr] items-center px-4 md:px-8">
+      <div className="grid h-[72px] grid-cols-[1fr_auto] items-center px-4 md:grid-cols-[1fr_auto_1fr] md:px-8">
         <nav className="contents">
           <div className="hidden items-center gap-8 md:flex">
             {navLinks.slice(1, 4).map((link) => (
@@ -68,7 +68,7 @@ export default function Navbar() {
             ))}
           </div>
 
-          <Link href="#inicio" className="justify-self-center" onClick={(e) => handleNavClick(e, "#inicio")}>
+          <Link href="#inicio" className="justify-self-start md:justify-self-center" onClick={(e) => handleNavClick(e, "#inicio")}>
             <div className="flex items-center gap-2 text-lg font-semibold tracking-[-0.04em] text-white">
               <span>{content.navigation.logo}</span>
               <span className="border border-white px-1 py-0.5 font-mono text-[9px] font-semibold tracking-normal">CDMX</span>
