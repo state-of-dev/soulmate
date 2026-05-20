@@ -12,27 +12,16 @@ export default function Footer() {
           <div>
             <Link href="#inicio" aria-label="Soulmate inicio">
               <Image
-                src="/logo-navbar.png"
+                src="/icon-backup.svg"
                 alt="Soulmate"
-                width={220}
-                height={82}
-                className="mb-4 h-12 w-auto object-contain"
+                width={96}
+                height={96}
+                className="mb-4 h-20 w-20 object-contain"
               />
             </Link>
             <p className="mb-4 max-w-xs font-mono text-sm leading-6 text-neutral-500">
               Capturamos los momentos más especiales de tu vida con un estilo cinematográfico único.
             </p>
-            <div className="flex space-x-4">
-              <Link href="#" className="text-neutral-500 transition-colors hover:text-white">
-                <Instagram className="h-5 w-5" />
-              </Link>
-              <Link href="#" className="text-neutral-500 transition-colors hover:text-white">
-                <Facebook className="h-5 w-5" />
-              </Link>
-              <Link href="#" className="text-neutral-500 transition-colors hover:text-white">
-                <Youtube className="h-5 w-5" />
-              </Link>
-            </div>
           </div>
 
           {/* Actualizar los enlaces con nuevos colores */}
@@ -111,6 +100,17 @@ export default function Footer() {
               </li>
               <li>CDMX, México</li>
             </ul>
+            <div className="mt-5 flex space-x-4">
+              <Link href="#" className="text-neutral-500 transition-colors hover:text-white" aria-label="Instagram">
+                <Instagram className="h-5 w-5" />
+              </Link>
+              <Link href="#" className="text-neutral-500 transition-colors hover:text-white" aria-label="Facebook">
+                <Facebook className="h-5 w-5" />
+              </Link>
+              <Link href="#" className="text-neutral-500 transition-colors hover:text-white" aria-label="YouTube">
+                <Youtube className="h-5 w-5" />
+              </Link>
+            </div>
           </div>
         </div>
 
