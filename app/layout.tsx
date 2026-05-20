@@ -1,21 +1,27 @@
 import type React from "react"
 import type { Metadata } from "next"
-import { Cormorant_Garamond, Playfair_Display } from "next/font/google"
+import { Geist, Geist_Mono, JetBrains_Mono } from "next/font/google"
 import "./globals.css"
 import ConditionalNavbar from "@/components/conditional-navbar"
 import { ThemeProvider } from "@/components/theme-provider"
 
-const cormorant = Cormorant_Garamond({
+const geist = Geist({
   subsets: ["latin"],
-  variable: "--font-cormorant",
-  weight: ["300", "400", "500", "600", "700"],
+  variable: "--font-geist",
 })
-const playfair = Playfair_Display({ subsets: ["latin"], variable: "--font-playfair" })
+const geistMono = Geist_Mono({
+  subsets: ["latin"],
+  variable: "--font-geist-mono",
+})
+const jetbrains = JetBrains_Mono({
+  subsets: ["latin"],
+  variable: "--font-jetbrains",
+})
 
 export const metadata: Metadata = {
-  title: "Momentos Eternos | Grabación y Edición de Videos para Bodas",
-  description: "Capturamos los momentos más especiales de tu boda con un estilo elegante y profesional.",
-    generator: 'v0.dev'
+  title: "Momentos Eternos | Wedding Film Studio",
+  description: "Cinematic wedding films with a sharp editorial language from CDMX.",
+  generator: "v0.dev",
 }
 
 export default function RootLayout({
@@ -24,9 +30,9 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="es" className="scroll-smooth">
-      <body className={`${cormorant.variable} ${playfair.variable} font-cormorant`}>
-        <ThemeProvider attribute="class" defaultTheme="light">
+    <html lang="es" className="dark scroll-smooth">
+      <body className={`${geist.variable} ${geistMono.variable} ${jetbrains.variable} font-sans`}>
+        <ThemeProvider attribute="class" defaultTheme="dark" enableSystem={false}>
           <ConditionalNavbar />
           {children}
         </ThemeProvider>

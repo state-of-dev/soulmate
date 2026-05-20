@@ -42,14 +42,14 @@ export default function VideoAudioToggle({ videoRef, className = '' }: VideoAudi
       transition={{ delay: 0.5, duration: 0.3 }}
       className={className}
     >
-      <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+      <motion.div whileHover={{ y: -2 }} whileTap={{ y: 0 }}>
         <Button
           onClick={toggleMute}
           size="lg"
-          className={`rounded-full p-4 shadow-xl transition-all duration-300 ${
+          className={`border p-4 transition-all duration-300 ${
             isMuted 
-              ? 'bg-black/60 hover:bg-black/80 text-pearl-50' 
-              : 'bg-pearl-200 hover:bg-pearl-300 text-primary'
+              ? 'border-white/20 bg-black/70 text-white hover:bg-neutral-900' 
+              : 'border-white bg-white text-black hover:bg-neutral-200'
           }`}
         >
           <motion.div

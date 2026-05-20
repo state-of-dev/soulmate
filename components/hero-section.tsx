@@ -3,7 +3,6 @@
 import { useEffect, useState } from "react"
 import { Button } from "@/components/ui/button"
 import { motion, AnimatePresence } from "framer-motion"
-import { Heart } from "lucide-react"
 import { useContent } from "@/hooks/useContent"
 import { useMediaUrls } from "@/hooks/useMediaUrls"
 
@@ -58,24 +57,33 @@ export default function HeroSection() {
   return (
     <section
       id="inicio"
-      className="relative min-h-screen flex items-center justify-center bg-cover bg-center py-32"
+      className="grid-surface relative flex min-h-[calc(100vh-72px)] items-center overflow-hidden border-b border-border bg-black px-4 md:px-8"
       style={{
         backgroundImage:
-          `linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.4)), url('${mediaUrls.heroImage}')`,
+          `linear-gradient(rgba(0, 0, 0, 0.82), rgba(0, 0, 0, 0.92)), url('${mediaUrls.aboutWork}')`,
+        backgroundPosition: "top left",
+        backgroundRepeat: "repeat",
+        backgroundSize: "80px auto",
       }}
     >
-      <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/40 to-black/60" />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(255,255,255,0.16),transparent_34%),linear-gradient(to_bottom,transparent,black_85%)]" />
+      <div className="absolute bottom-0 left-0 right-0 h-px bg-border" />
 
-      <div className="container mx-auto px-4 relative z-10 text-center">
+      <div className="relative z-10 mx-auto grid w-full max-w-7xl gap-12 py-20 lg:grid-cols-[1fr_360px] lg:items-end">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
-          className="max-w-6xl mx-auto"
+          className="max-w-5xl"
         >
-          {/* Texto animado principal - más grande */}
-          <div className="mb-12 leading-tight">
-            <div className="relative h-32 md:h-40 lg:h-48 flex items-center justify-center overflow-hidden">
+          <div className="mono-label mb-8">Wedding film studio / CDMX / 2026</div>
+
+          <h1 className="text-balance text-6xl font-semibold leading-[0.86] tracking-[-0.08em] text-white md:text-8xl lg:text-[9.5rem]">
+            Films for weddings that feel engineered.
+          </h1>
+
+          <div className="mt-8 border-y border-border py-6 md:mt-10">
+            <div className="relative h-16 overflow-hidden md:h-20">
               <AnimatePresence mode="wait">
                 <motion.div
                   key={currentIndex}
@@ -83,42 +91,26 @@ export default function HeroSection() {
                   initial="enter"
                   animate="center"
                   exit="exit"
-                  className="absolute inset-0 flex items-center justify-center"
+                  className="absolute inset-0 flex items-center"
                 >
                   <span
-                    className={`text-4xl md:text-5xl lg:text-7xl font-playfair italic font-bold ${services[currentIndex].color} text-center px-4`}
+                    className="font-mono text-sm font-medium uppercase tracking-[0.18em] text-neutral-300 md:text-base"
                     style={{
-                      textShadow: "0 0 40px rgba(248, 243, 236, 0.8), 0 0 80px rgba(248, 243, 236, 0.4)",
                       lineHeight: "1.1",
                     }}
                   >
-                    {services[currentIndex].text}
+                    Currently crafting: {services[currentIndex].text}
                   </span>
                 </motion.div>
               </AnimatePresence>
             </div>
           </div>
 
-          <div className="flex justify-center mb-8">
-            <motion.div
-              animate={{
-                width: [96, 128, 96],
-                opacity: [0.7, 1, 0.7],
-              }}
-              transition={{
-                duration: 3,
-                repeat: Number.POSITIVE_INFINITY,
-                ease: "easeInOut",
-              }}
-              className="h-0.5 bg-pearl-200"
-            />
-          </div>
-
           <motion.p
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.5, duration: 0.8 }}
-            className="text-xl md:text-2xl text-pearl-100 mb-12 font-light leading-relaxed"
+            className="mt-8 max-w-2xl text-balance font-mono text-sm leading-7 text-neutral-400 md:text-base"
           >
             {content.hero.subtitle}
           </motion.p>
@@ -127,25 +119,23 @@ export default function HeroSection() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.8, duration: 0.6 }}
-            className="flex flex-col sm:flex-row justify-center gap-6"
+            className="mt-10 flex flex-col gap-3 sm:flex-row"
           >
-            <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+            <motion.div whileHover={{ y: -2 }} whileTap={{ y: 0 }}>
               <Button
                 size="lg"
-                className="bg-pearl-200 hover:bg-pearl-300 text-primary rounded-full px-8 py-4 font-medium shadow-xl hover:shadow-2xl transition-all duration-300"
+                className="px-8"
                 asChild
               >
-                <a href="#contacto">
-                  {content.hero.buttons.primary} <Heart className="ml-2 h-5 w-5" />
-                </a>
+                <a href="#contacto">{content.hero.buttons.primary}</a>
               </Button>
             </motion.div>
 
-            <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+            <motion.div whileHover={{ y: -2 }} whileTap={{ y: 0 }}>
               <Button
                 size="lg"
                 variant="outline"
-                className="bg-transparent backdrop-blur-sm border-2 border-pearl-200/50 text-pearl-50 hover:bg-pearl-50/10 hover:border-pearl-200 rounded-full px-8 py-4 font-light transition-all duration-300"
+                className="px-8"
                 asChild
               >
                 <a href="#portafolio">{content.hero.buttons.secondary}</a>
@@ -153,6 +143,28 @@ export default function HeroSection() {
             </motion.div>
           </motion.div>
         </motion.div>
+
+        <motion.aside
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.9, duration: 0.7 }}
+          className="border border-border bg-black/60 backdrop-blur-md"
+        >
+          <div className="border-b border-border p-5">
+            <div className="mono-label">Production brief</div>
+          </div>
+          {[
+            ["Format", "Cinematic recap + documentary"],
+            ["Coverage", "CDMX / National / International"],
+            ["Look", "Sharp contrast / editorial"],
+            ["Delivery", "Digital master files"],
+          ].map(([label, value]) => (
+            <div key={label} className="grid grid-cols-[110px_1fr] border-b border-border last:border-b-0">
+              <div className="border-r border-border p-4 font-mono text-[10px] uppercase tracking-[0.16em] text-neutral-500">{label}</div>
+              <div className="p-4 text-sm text-neutral-200">{value}</div>
+            </div>
+          ))}
+        </motion.aside>
       </div>
 
       <motion.div
@@ -164,9 +176,9 @@ export default function HeroSection() {
           repeat: Number.POSITIVE_INFINITY,
           ease: "easeInOut",
         }}
-        className="absolute bottom-10 left-1/2 transform -translate-x-1/2"
+        className="absolute bottom-8 left-1/2 hidden -translate-x-1/2 md:block"
       >
-        <a href="#quienes-somos" className="text-pearl-200 hover:text-pearl-50 transition-colors">
+        <a href="#quienes-somos" className="text-neutral-500 transition-colors hover:text-white">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="24"

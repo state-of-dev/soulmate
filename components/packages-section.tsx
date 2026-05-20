@@ -5,7 +5,6 @@ import { useInView } from "react-intersection-observer"
 import { Check, X } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
 
 type PackageFeature = {
   name: string
@@ -99,8 +98,9 @@ export default function PackagesSection() {
   }
 
   return (
-    <section id="paquetes" className="section-padding bg-gradient-to-b from-pearl-50 to-white">
+    <section id="paquetes" className="section-padding border-b border-border bg-black">
       <div className="container mx-auto px-4">
+        <div className="mono-label text-center">03 / Production packages</div>
         <h2 className="section-title">Nuestros Paquetes</h2>
         <div className="decorative-line" />
         <p className="section-subtitle">Elige el paquete que mejor se adapte a tus necesidades y presupuesto</p>
@@ -110,43 +110,44 @@ export default function PackagesSection() {
           variants={containerVariants}
           initial="hidden"
           animate={inView ? "visible" : "hidden"}
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-12"
+          className="mt-12 grid grid-cols-1 gap-0 border border-border md:grid-cols-2 lg:grid-cols-3"
         >
           {packages.map((pkg) => (
             <motion.div key={pkg.id} variants={itemVariants}>
               <Card
-                className={`relative h-full flex flex-col ${
-                  pkg.popular ? "border-primary shadow-lg shadow-primary/10" : ""
+                className={`relative flex h-full flex-col border-0 border-b border-border bg-black lg:border-b-0 lg:border-r lg:last:border-r-0 ${
+                  pkg.popular ? "bg-neutral-950" : ""
                 }`}
               >
                 {pkg.popular && (
-                  <div className="absolute -top-4 left-0 right-0 flex justify-center">
-                    <Badge className="bg-primary hover:bg-primary">Más Popular</Badge>
+                  <div className="absolute right-0 top-0 border-b border-l border-white bg-white px-3 py-2 font-mono text-[10px] font-semibold uppercase tracking-[0.14em] text-black">
+                    Más Popular
                   </div>
                 )}
-                <CardHeader>
-                  <CardTitle className="text-2xl">{pkg.name}</CardTitle>
-                  <div className="mt-2">
-                    <span className="text-3xl font-bold">{pkg.price}</span>
+                <CardHeader className="min-h-[220px] p-6 md:p-8">
+                  <div className="mono-label">{pkg.id}</div>
+                  <CardTitle className="mt-6 text-4xl font-semibold tracking-[-0.06em] text-white">{pkg.name}</CardTitle>
+                  <div className="mt-4">
+                    <span className="text-5xl font-semibold tracking-[-0.06em] text-white">{pkg.price}</span>
                   </div>
-                  <CardDescription className="mt-2">{pkg.description}</CardDescription>
+                  <CardDescription className="mt-4 max-w-xs text-sm leading-6 text-neutral-400">{pkg.description}</CardDescription>
                 </CardHeader>
-                <CardContent className="flex-grow">
-                  <ul className="space-y-3">
+                <CardContent className="flex-grow p-0">
+                  <ul className="divide-y divide-border border-b border-border">
                     {pkg.features.map((feature, index) => (
-                      <li key={index} className="flex items-start">
+                      <li key={index} className="flex items-start gap-3 px-6 py-4 md:px-8">
                         {feature.included ? (
-                          <Check className="h-5 w-5 text-primary mr-2 shrink-0" />
+                          <Check className="mt-0.5 h-4 w-4 shrink-0 text-white" />
                         ) : (
-                          <X className="h-5 w-5 text-muted-foreground mr-2 shrink-0" />
+                          <X className="mt-0.5 h-4 w-4 shrink-0 text-neutral-600" />
                         )}
-                        <span className={feature.included ? "" : "text-muted-foreground"}>{feature.name}</span>
+                        <span className={feature.included ? "text-sm text-neutral-200" : "text-sm text-neutral-600"}>{feature.name}</span>
                       </li>
                     ))}
                   </ul>
                 </CardContent>
-                <CardFooter>
-                  <Button className={`w-full ${pkg.popular ? "bg-primary hover:bg-primary/90" : ""}`} asChild>
+                <CardFooter className="p-6 md:p-8">
+                  <Button className="w-full" variant={pkg.popular ? "default" : "outline"} asChild>
                     <a href="#contacto">Solicitar Información</a>
                   </Button>
                 </CardFooter>
@@ -155,8 +156,8 @@ export default function PackagesSection() {
           ))}
         </motion.div>
 
-        <div className="mt-16 text-center">
-          <p className="text-muted-foreground mb-6">
+        <div className="mx-auto mt-16 max-w-2xl border border-border p-6 text-center">
+          <p className="mb-6 font-mono text-sm leading-6 text-neutral-400">
             ¿Necesitas un paquete personalizado? Contáctanos para crear una solución a medida para tu día especial.
           </p>
           <Button size="lg" variant="outline" asChild>

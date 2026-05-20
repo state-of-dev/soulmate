@@ -68,12 +68,13 @@ const config = {
       },
       borderRadius: {
         lg: "var(--radius)",
-        md: "calc(var(--radius) - 2px)",
-        sm: "calc(var(--radius) - 4px)",
+        md: "var(--radius)",
+        sm: "var(--radius)",
       },
       fontFamily: {
-        cormorant: ["var(--font-cormorant)"],
-        playfair: ["var(--font-playfair)"],
+        sans: ["var(--font-geist)"],
+        mono: ["var(--font-geist-mono)"],
+        jetbrains: ["var(--font-jetbrains)"],
       },
       backgroundImage: {
         "hero-pattern": "linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.4)), url('/images/hero-bg.jpg')",

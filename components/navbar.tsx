@@ -38,7 +38,7 @@ export default function Navbar() {
     e.preventDefault()
     const element = document.querySelector(href)
     if (element) {
-      const offsetTop = element.getBoundingClientRect().top + window.pageYOffset - 80
+      const offsetTop = element.getBoundingClientRect().top + window.pageYOffset - 72
       window.scrollTo({
         top: offsetTop,
         behavior: "smooth",
@@ -49,49 +49,53 @@ export default function Navbar() {
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled
-          ? "bg-pearl-50/95 backdrop-blur-md shadow-lg border-b border-pearl-200"
-          : "bg-gradient-to-b from-black/30 to-transparent"
+      className={`sticky left-0 right-0 top-0 z-50 border-b border-border transition-colors duration-300 ${
+        isScrolled ? "bg-black/90 backdrop-blur-xl" : "bg-black/70 backdrop-blur-sm"
       }`}
     >
-      <div className="container mx-auto px-4 py-4">
-        <nav className="flex items-center justify-between">
-          <Link href="#inicio" className="flex items-center" onClick={(e) => handleNavClick(e, "#inicio")}>
-            <div className="text-2xl font-playfair font-bold">
-              <span className={isScrolled ? "text-primary" : "text-pearl-50"}>{content.navigation.logo}</span>
-            </div>
-          </Link>
-
-          {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center space-x-1 lg:space-x-6">
-            {navLinks.slice(1).map((link) => (
+      <div className="grid h-[72px] grid-cols-[1fr_auto_1fr] items-center px-4 md:px-8">
+        <nav className="contents">
+          <div className="hidden items-center gap-8 md:flex">
+            {navLinks.slice(1, 4).map((link) => (
               <Link
                 key={link.name}
                 href={link.href}
                 onClick={(e) => handleNavClick(e, link.href)}
-                className={`px-4 py-2 text-sm font-medium transition-all duration-300 hover:scale-105 ${
-                  link.name === "Contáctanos"
-                    ? `rounded-full px-6 py-3 ${
-                        isScrolled
-                          ? "bg-primary text-pearl-50 hover:bg-primary/90 shadow-md"
-                          : "bg-pearl-50/20 backdrop-blur-sm text-pearl-50 border border-pearl-50/30 hover:bg-pearl-50/30"
-                      }`
-                    : isScrolled
-                      ? "text-primary/80 hover:text-primary font-medium"
-                      : "text-pearl-50/90 hover:text-pearl-50 font-light"
-                }`}
+                className="font-mono text-xs font-medium uppercase tracking-[0.14em] text-neutral-300 transition-colors hover:text-white"
               >
                 {link.name}
               </Link>
             ))}
           </div>
 
-          {/* Mobile Navigation Toggle */}
+          <Link href="#inicio" className="justify-self-center" onClick={(e) => handleNavClick(e, "#inicio")}>
+            <div className="flex items-center gap-2 text-lg font-semibold tracking-[-0.04em] text-white">
+              <span>{content.navigation.logo}</span>
+              <span className="border border-white px-1 py-0.5 font-mono text-[9px] font-semibold tracking-normal">CDMX</span>
+            </div>
+          </Link>
+
+          <div className="hidden items-center justify-end gap-8 md:flex">
+            <Link
+              href="#portafolio"
+              onClick={(e) => handleNavClick(e, "#portafolio")}
+              className="font-mono text-xs font-medium uppercase tracking-[0.14em] text-neutral-300 transition-colors hover:text-white"
+            >
+              Reel
+            </Link>
+            <Link
+              href="#contacto"
+              onClick={(e) => handleNavClick(e, "#contacto")}
+              className="font-mono text-xs font-medium uppercase tracking-[0.14em] text-white transition-colors hover:text-neutral-300"
+            >
+              Get a quote
+            </Link>
+          </div>
+
           <Button
             variant="ghost"
             size="icon"
-            className={`md:hidden ${isScrolled ? "text-primary hover:bg-pearl-100" : "text-pearl-50 hover:bg-pearl-50/20"}`}
+            className="justify-self-end text-white md:hidden"
             onClick={() => setIsOpen(!isOpen)}
             aria-label={content.navigation.toggleMenu}
           >
@@ -99,20 +103,15 @@ export default function Navbar() {
           </Button>
         </nav>
 
-        {/* Mobile Navigation Menu */}
         {isOpen && (
-          <div className="md:hidden absolute top-full left-0 right-0 bg-pearl-50/98 backdrop-blur-md shadow-xl border-b border-pearl-200">
-            <div className="flex flex-col p-6 space-y-4">
+          <div className="absolute left-0 right-0 top-full border-b border-border bg-black md:hidden">
+            <div className="flex flex-col divide-y divide-border px-4">
               {navLinks.map((link) => (
                 <Link
                   key={link.name}
                   href={link.href}
                   onClick={(e) => handleNavClick(e, link.href)}
-                  className={`px-4 py-3 text-primary/80 hover:text-primary font-medium transition-colors rounded-lg hover:bg-pearl-100 ${
-                    link.name === "Contáctanos"
-                      ? "bg-primary text-pearl-50 hover:bg-primary/90 hover:text-pearl-50 text-center"
-                      : ""
-                  }`}
+                  className="py-5 font-mono text-xs font-medium uppercase tracking-[0.16em] text-neutral-300 transition-colors hover:text-white"
                 >
                   {link.name}
                 </Link>

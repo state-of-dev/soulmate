@@ -107,8 +107,9 @@ export default function PortfolioSection() {
   const visibleGalleryItems = galleryItems.slice(currentSlide * 3, currentSlide * 3 + 3)
 
   return (
-    <section id="portafolio" className="section-padding">
+    <section id="portafolio" className="section-padding border-b border-border bg-black">
       <div className="container mx-auto px-4">
+        <div className="mono-label text-center">02 / Selected work</div>
         <h2 className="section-title">{content.portfolio.title}</h2>
         <div className="decorative-line" />
         <p className="section-subtitle">
@@ -130,21 +131,21 @@ export default function PortfolioSection() {
               transition={{ duration: 0.6 }}
               className="flex justify-center"
             >
-              <div className="max-w-4xl w-full">
-                <Card className="overflow-hidden">
+              <div className="w-full max-w-5xl">
+                <Card className="overflow-hidden border-border bg-black">
                   <CardContent className="p-0">
-                    <div className="relative aspect-video">
+                    <div className="relative aspect-video border-b border-border">
                       <>
                         {/* Loader mientras carga el video */}
                         {videoLoading && (
-                          <div className="absolute inset-0 w-full h-full rounded-lg bg-black flex items-center justify-center z-10">
+                          <div className="absolute inset-0 z-10 flex h-full w-full items-center justify-center bg-black">
                             <div className="text-center text-white">
                               <motion.div
                                 animate={{ rotate: 360 }}
                                 transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
-                                className="w-12 h-12 border-4 border-pearl-200 border-t-transparent rounded-full mx-auto mb-4"
+                                className="mx-auto mb-4 h-10 w-10 border border-white border-t-transparent"
                               />
-                              <p className="text-lg font-medium">Cargando video...</p>
+                              <p className="font-mono text-xs uppercase tracking-[0.16em] text-neutral-400">Cargando video...</p>
                             </div>
                           </div>
                         )}
@@ -157,7 +158,7 @@ export default function PortfolioSection() {
                             muted={true}
                             playsInline
                             preload="metadata"
-                            className="w-full h-full rounded-lg bg-black"
+                            className="h-full w-full bg-black"
                             onLoadStart={() => setVideoLoading(true)}
                             onLoadedData={() => {
                               setVideoLoading(false)
@@ -175,7 +176,7 @@ export default function PortfolioSection() {
                       
                       {/* Botón de audio del video en la esquina superior derecha */}
                       {mediaUrls.tabVideo && (
-                        <div className="absolute top-4 right-4 z-10">
+                        <div className="absolute right-4 top-4 z-10">
                           <VideoAudioToggle 
                             videoRef={videoRef}
                             className="relative"
@@ -183,11 +184,14 @@ export default function PortfolioSection() {
                         </div>
                       )}
                     </div>
-                    <div className="p-6">
-                      <h3 className="font-bold text-2xl mb-2">{content.portfolio.recap.title}</h3>
-                      <p className="text-muted-foreground">
+                    <div className="grid gap-4 p-6 md:grid-cols-[240px_1fr]">
+                      <div className="mono-label">Featured recap</div>
+                      <div>
+                      <h3 className="mb-2 text-3xl font-semibold tracking-[-0.05em] text-white">{content.portfolio.recap.title}</h3>
+                      <p className="max-w-2xl text-neutral-400">
                         {content.portfolio.recap.description}
                       </p>
+                      </div>
                     </div>
                   </CardContent>
                 </Card>
@@ -205,24 +209,25 @@ export default function PortfolioSection() {
               initial={{ opacity: 0 }}
               animate={inView ? { opacity: 1 } : { opacity: 0 }}
               transition={{ duration: 0.6 }}
-              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+              className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3"
             >
               {featuredVideos.map((video, index) => (
-                <Card key={video.id} className="overflow-hidden">
+                <Card key={video.id} className="group overflow-hidden border-border bg-black transition-colors hover:border-neutral-500">
                   <CardContent className="p-0">
-                    <div className="relative group">
-                      <div className="relative h-48 md:h-56 lg:h-64">
+                    <div className="relative">
+                      <div className="relative h-56 border-b border-border md:h-64 lg:h-72">
                         <Image
                           src={mediaUrls.tabGifs[index] || `/media/tab-gif-${index + 1}.gif`}
                           alt={video.title}
                           fill
-                          className="object-cover"
+                          className="object-cover grayscale transition duration-500 group-hover:grayscale-0"
                           unoptimized
                         />
                       </div>
-                      <div className="p-4">
-                        <h3 className="font-bold text-lg">{video.title}</h3>
-                        <p className="text-muted-foreground text-sm mt-1">{video.description}</p>
+                      <div className="p-5">
+                        <div className="mb-3 font-mono text-[10px] uppercase tracking-[0.16em] text-neutral-500">Film / {String(index + 1).padStart(2, "0")}</div>
+                        <h3 className="text-xl font-semibold tracking-[-0.04em] text-white">{video.title}</h3>
+                        <p className="mt-2 text-sm leading-6 text-neutral-400">{video.description}</p>
                       </div>
                     </div>
                   </CardContent>
@@ -238,17 +243,17 @@ export default function PortfolioSection() {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ duration: 0.6 }}
-                className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+                className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3"
               >
                 {visibleGalleryItems.map((item) => (
-                  <Card key={item.id} className="overflow-hidden">
+                  <Card key={item.id} className="group overflow-hidden border-border bg-black transition-colors hover:border-neutral-500">
                     <CardContent className="p-0">
-                      <div className="relative h-64 md:h-72">
-                        <Image src={item.image || "/placeholder.svg"} alt={item.title} fill className="object-cover" />
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />
-                        <div className="absolute bottom-0 left-0 right-0 p-4 text-white">
-                          <h3 className="font-bold text-lg">{item.title}</h3>
-                          <p className="text-sm text-white/80 mt-1">{item.description}</p>
+                      <div className="relative h-[420px] md:h-[520px] lg:h-[560px]">
+                        <Image src={item.image || "/placeholder.svg"} alt={item.title} fill className="object-cover object-top grayscale transition duration-500 group-hover:grayscale-0" />
+                        <div className="absolute inset-0 bg-gradient-to-t from-black via-black/30 to-transparent" />
+                        <div className="absolute bottom-0 left-0 right-0 border-t border-white/15 bg-black/70 p-5 text-white backdrop-blur-sm">
+                          <h3 className="text-lg font-semibold tracking-[-0.04em]">{item.title}</h3>
+                          <p className="mt-1 font-mono text-xs leading-5 text-neutral-400">{item.description}</p>
                         </div>
                       </div>
                     </CardContent>
@@ -256,11 +261,11 @@ export default function PortfolioSection() {
                 ))}
               </motion.div>
 
-              <div className="flex justify-center mt-8 gap-2">
-                <Button variant="outline" size="icon" onClick={prevSlide} className="rounded-full">
+              <div className="mt-8 flex justify-center gap-2">
+                <Button variant="outline" size="icon" onClick={prevSlide}>
                   <ChevronLeft className="h-5 w-5" />
                 </Button>
-                <Button variant="outline" size="icon" onClick={nextSlide} className="rounded-full">
+                <Button variant="outline" size="icon" onClick={nextSlide}>
                   <ChevronRight className="h-5 w-5" />
                 </Button>
               </div>

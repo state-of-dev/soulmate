@@ -35,8 +35,9 @@ export default function AboutSection() {
   }
 
   return (
-    <section id="quienes-somos" className="section-padding bg-pearl-50">
+    <section id="quienes-somos" className="section-padding border-b border-border bg-black">
       <div className="container mx-auto px-4">
+        <div className="mono-label text-center">01 / Studio operating system</div>
         <h2 className="section-title">{content.about.title}</h2>
         <div className="decorative-line" />
 
@@ -45,85 +46,93 @@ export default function AboutSection() {
           variants={containerVariants}
           initial="hidden"
           animate={inView ? "visible" : "hidden"}
-          className="space-y-20 mt-16"
+          className="mt-16 space-y-20"
         >
-          {/* Nuestro Estilo */}
-          <motion.div variants={itemVariants} className="grid md:grid-cols-2 gap-12 items-center">
+          <motion.div variants={itemVariants} className="grid gap-0 border border-border md:grid-cols-2">
             <div className="order-2 md:order-1">
-              <div className="flex items-center mb-6">
-                <Camera className="h-8 w-8 text-primary mr-4" />
-                <h3 className="text-3xl font-bold">{content.about.sections.style.title}</h3>
-              </div>
-              {content.about.sections.style.paragraphs.map((paragraph, index) => (
-                <p key={index} className="text-lg text-muted-foreground mb-6 leading-relaxed">
-                  {paragraph}
-                </p>
-              ))}
-              <div className="grid grid-cols-2 gap-4 mt-8">
-                <div className="text-center p-4 bg-white rounded-lg shadow-sm border border-pearl-200">
-                  <div className="text-2xl font-bold text-primary mb-1">{content.about.sections.style.stats[0].value}</div>
-                  <div className="text-sm text-muted-foreground">{content.about.sections.style.stats[0].label}</div>
+              <div className="border-b border-border p-6 md:p-8">
+                <div className="mb-4 flex items-center gap-3">
+                  <Camera className="h-5 w-5 text-neutral-400" />
+                  <span className="mono-label">Visual direction</span>
                 </div>
-                <div className="text-center p-4 bg-white rounded-lg shadow-sm border border-pearl-200">
-                  <div className="text-2xl font-bold text-primary mb-1">{content.about.sections.style.stats[1].value}</div>
-                  <div className="text-sm text-muted-foreground">{content.about.sections.style.stats[1].label}</div>
+                <h3 className="text-3xl font-semibold tracking-[-0.05em] text-white md:text-5xl">{content.about.sections.style.title}</h3>
+              </div>
+              <div className="p-6 md:p-8">
+                {content.about.sections.style.paragraphs.map((paragraph, index) => (
+                  <p key={index} className="mb-6 max-w-xl text-base leading-7 text-neutral-400 md:text-lg">
+                    {paragraph}
+                  </p>
+                ))}
+                <div className="mt-8 grid grid-cols-2 border border-border">
+                  <div className="border-r border-border p-5">
+                    <div className="mb-1 text-3xl font-semibold tracking-[-0.05em] text-white">{content.about.sections.style.stats[0].value}</div>
+                    <div className="font-mono text-xs uppercase tracking-[0.14em] text-neutral-500">{content.about.sections.style.stats[0].label}</div>
+                  </div>
+                  <div className="p-5">
+                    <div className="mb-1 text-3xl font-semibold tracking-[-0.05em] text-white">{content.about.sections.style.stats[1].value}</div>
+                    <div className="font-mono text-xs uppercase tracking-[0.14em] text-neutral-500">{content.about.sections.style.stats[1].label}</div>
+                  </div>
                 </div>
               </div>
             </div>
-            <div className="order-1 md:order-2 relative">
-              <div className="relative h-96 md:h-[500px] rounded-2xl overflow-hidden shadow-2xl">
+            <div className="relative order-1 border-b border-border md:order-2 md:border-b-0 md:border-l">
+              <div className="relative h-96 overflow-hidden md:h-full md:min-h-[620px]">
                 <Image
                   src={mediaUrls.aboutStyle}
                   alt={content.about.sections.style.alt}
                   fill
                   className="object-cover"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent" />
               </div>
-              <div className="absolute -bottom-6 -right-6 bg-white p-4 rounded-xl shadow-lg border border-pearl-200">
-                <Award className="h-6 w-6 text-primary" />
+              <div className="absolute bottom-0 right-0 border-l border-t border-border bg-black p-5">
+                <Award className="h-5 w-5 text-white" />
               </div>
             </div>
           </motion.div>
 
-          {/* Cómo Trabajamos */}
-          <motion.div variants={itemVariants} className="grid md:grid-cols-2 gap-12 items-center">
-            <div className="relative">
-              <div className="relative h-96 md:h-[500px] rounded-2xl overflow-hidden shadow-2xl">
+          <motion.div variants={itemVariants} className="grid gap-0 border border-border md:grid-cols-2">
+            <div className="relative border-b border-border md:border-b-0 md:border-r">
+              <div className="relative h-96 overflow-hidden md:h-full md:min-h-[560px]">
                 <Image
                   src={mediaUrls.aboutWork}
                   alt={content.about.sections.work.alt}
                   fill
                   className="object-cover"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent" />
               </div>
-              <div className="absolute -bottom-6 -left-6 bg-white p-4 rounded-xl shadow-lg border border-pearl-200">
-                <Users className="h-6 w-6 text-primary" />
+              <div className="absolute bottom-0 left-0 border-r border-t border-border bg-black p-5">
+                <Users className="h-5 w-5 text-white" />
               </div>
             </div>
             <div>
-              <div className="flex items-center mb-6">
-                <Heart className="h-8 w-8 text-primary mr-4" />
-                <h3 className="text-3xl font-bold">{content.about.sections.work.title}</h3>
+              <div className="border-b border-border p-6 md:p-8">
+                <div className="mb-4 flex items-center gap-3">
+                  <Heart className="h-5 w-5 text-neutral-400" />
+                  <span className="mono-label">Process</span>
+                </div>
+                <h3 className="text-3xl font-semibold tracking-[-0.05em] text-white md:text-5xl">{content.about.sections.work.title}</h3>
               </div>
-              <p className="text-lg text-muted-foreground mb-6 leading-relaxed">
-                {content.about.sections.work.intro}
-              </p>
-              <div className="space-y-4">
+              <div className="p-6 md:p-8">
+                <p className="mb-8 max-w-xl text-base leading-7 text-neutral-400 md:text-lg">
+                  {content.about.sections.work.intro}
+                </p>
+              <div className="border border-border">
                 {content.about.sections.work.process.map((step, index) => (
-                  <div key={index} className="flex items-start">
-                    <div className="bg-primary/10 rounded-full p-2 mr-4 mt-1">
-                      <div className="w-2 h-2 bg-primary rounded-full"></div>
-                    </div>
+                  <div key={index} className="grid grid-cols-[64px_1fr] border-b border-border last:border-b-0">
+                    <div className="border-r border-border p-4 font-mono text-xs text-neutral-500">{String(index + 1).padStart(2, "0")}</div>
                     <div>
-                      <h4 className="font-semibold mb-1">{step.title}</h4>
-                      <p className="text-muted-foreground">
+                      <div className="p-4">
+                      <h4 className="mb-1 font-semibold text-white">{step.title}</h4>
+                      <p className="text-sm leading-6 text-neutral-400">
                         {step.description}
                       </p>
+                      </div>
                     </div>
                   </div>
                 ))}
+              </div>
               </div>
             </div>
           </motion.div>
