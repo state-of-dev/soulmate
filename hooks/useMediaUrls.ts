@@ -12,21 +12,8 @@ interface MediaUrls {
   backgroundAudio?: string
 }
 
-const MEDIA_CACHE_KEY = 'soulmate-media-urls'
-
-const getCachedMediaUrls = (): MediaUrls => {
-  if (typeof window === 'undefined') return DEFAULT_MEDIA
-
-  try {
-    const cached = window.localStorage.getItem(MEDIA_CACHE_KEY)
-    return cached ? { ...DEFAULT_MEDIA, ...JSON.parse(cached) } : DEFAULT_MEDIA
-  } catch {
-    return DEFAULT_MEDIA
-  }
-}
-
 export function useMediaUrls(): MediaUrls {
-  const [mediaUrls, setMediaUrls] = useState<MediaUrls>(getCachedMediaUrls)
+  const [mediaUrls, setMediaUrls] = useState<MediaUrls>(DEFAULT_MEDIA)
 
   useEffect(() => {
     // Intentar obtener URLs de Blob si están disponibles
@@ -66,12 +53,6 @@ export function useMediaUrls(): MediaUrls {
           })
           
           setMediaUrls(updatedUrls)
-
-          try {
-            window.localStorage.setItem(MEDIA_CACHE_KEY, JSON.stringify(updatedUrls))
-          } catch {
-            // Cache is a performance optimization only.
-          }
         }
       } catch (error) {
         console.log('Using local media files as fallback')

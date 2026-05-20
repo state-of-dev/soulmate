@@ -8,6 +8,8 @@ import { useMediaUrls } from "@/hooks/useMediaUrls"
 
 export default function HeroSection() {
   const [currentIndex, setCurrentIndex] = useState(0)
+  const [heroImageLoaded, setHeroImageLoaded] = useState(false)
+  const [showHeroLoading, setShowHeroLoading] = useState(true)
 
   const content = useContent()
   const mediaUrls = useMediaUrls()
@@ -21,19 +23,62 @@ export default function HeroSection() {
     return () => clearInterval(interval)
   }, [services.length])
 
-  useEffect(() => {
-    if (!mediaUrls.aboutWork || mediaUrls.aboutWork === "/placeholder.jpg") return
+  const heroTileUrl = mediaUrls.aboutWork
+  const isFallbackHeroTile = heroTileUrl.startsWith("/media/")
 
-    const link = document.createElement("link")
-    link.rel = "preload"
-    link.as = "image"
-    link.href = mediaUrls.aboutWork
-    document.head.appendChild(link)
+  useEffect(() => {
+    if (!heroTileUrl) return
+
+    if (isFallbackHeroTile) {
+      setHeroImageLoaded(false)
+      setShowHeroLoading(true)
+      return
+    }
+
+    setHeroImageLoaded(false)
+    setShowHeroLoading(true)
+    let firstFrame = 0
+    let secondFrame = 0
+
+    const finishLoading = () => {
+      setHeroImageLoaded(true)
+      firstFrame = window.requestAnimationFrame(() => {
+        secondFrame = window.requestAnimationFrame(() => {
+          setShowHeroLoading(false)
+        })
+      })
+    }
+
+    const timeout = window.setTimeout(() => {
+      finishLoading()
+    }, 4000)
+
+    const image = new Image()
+    image.src = heroTileUrl
+    image.onload = async () => {
+      window.clearTimeout(timeout)
+      try {
+        await image.decode()
+      } catch {
+        // Some browsers reject decode for cached images; onload is enough.
+      }
+      finishLoading()
+    }
+    image.onerror = () => {
+      window.clearTimeout(timeout)
+      finishLoading()
+    }
 
     return () => {
-      document.head.removeChild(link)
+      window.clearTimeout(timeout)
+      window.cancelAnimationFrame(firstFrame)
+      window.cancelAnimationFrame(secondFrame)
     }
-  }, [mediaUrls.aboutWork])
+  }, [heroTileUrl, isFallbackHeroTile])
+
+  const heroBackgroundImage = heroImageLoaded
+    ? `linear-gradient(rgba(0, 0, 0, 0.82), rgba(0, 0, 0, 0.92)), url('${heroTileUrl}')`
+    : "none"
 
   const textVariants = {
     enter: {
@@ -68,14 +113,35 @@ export default function HeroSection() {
     <section
       id="inicio"
       className="grid-surface relative flex min-h-[calc(100vh-72px)] items-center overflow-hidden border-b border-border bg-black px-4 md:px-8"
-      style={{
-        backgroundImage:
-          `linear-gradient(rgba(0, 0, 0, 0.82), rgba(0, 0, 0, 0.92)), url('${mediaUrls.aboutWork}')`,
-        backgroundPosition: "top left",
-        backgroundRepeat: "repeat",
-        backgroundSize: "80px auto",
-      }}
     >
+      <div
+        className="absolute inset-0 transition-opacity duration-300"
+        style={{
+          backgroundImage: heroBackgroundImage,
+          backgroundPosition: "top left",
+          backgroundRepeat: "repeat",
+          backgroundSize: "80px auto",
+          opacity: heroImageLoaded ? 1 : 0,
+        }}
+      />
+      {showHeroLoading && (
+        <div className="absolute inset-0 z-20 flex justify-center bg-black px-6 pt-[18vh] md:pt-[20vh]">
+          <div className="w-full max-w-[360px] self-start border border-border bg-black">
+            <div className="border-b border-border p-4 text-center font-mono text-[10px] uppercase tracking-[0.18em] text-neutral-500">
+              Loading visual system
+            </div>
+            <div className="grid grid-cols-6 gap-px bg-border p-px">
+              {Array.from({ length: 24 }).map((_, index) => (
+                <div
+                  key={index}
+                  className="h-12 animate-pulse bg-neutral-950"
+                  style={{ animationDelay: `${index * 45}ms` }}
+                />
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(255,255,255,0.16),transparent_34%),linear-gradient(to_bottom,transparent,black_85%)]" />
       <div className="absolute bottom-0 left-0 right-0 h-px bg-border" />
 

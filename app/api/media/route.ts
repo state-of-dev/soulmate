@@ -8,17 +8,10 @@ export async function GET(request: NextRequest) {
     
     const media = await listMedia(type || undefined)
     
-    return NextResponse.json(
-      {
-        success: true,
-        media
-      },
-      {
-        headers: {
-          'Cache-Control': 'public, s-maxage=300, stale-while-revalidate=86400'
-        }
-      }
-    )
+    return NextResponse.json({
+      success: true,
+      media
+    })
   } catch (error) {
     console.error('List media error:', error)
     return NextResponse.json(

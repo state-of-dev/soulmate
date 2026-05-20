@@ -3,7 +3,6 @@ import type { Metadata } from "next"
 import { Geist, Geist_Mono, JetBrains_Mono } from "next/font/google"
 import "./globals.css"
 import ConditionalNavbar from "@/components/conditional-navbar"
-import { ThemeProvider } from "@/components/theme-provider"
 
 const geist = Geist({
   subsets: ["latin"],
@@ -32,10 +31,8 @@ export default function RootLayout({
   return (
     <html lang="es" className="dark scroll-smooth">
       <body className={`${geist.variable} ${geistMono.variable} ${jetbrains.variable} font-sans`}>
-        <ThemeProvider attribute="class" defaultTheme="dark" enableSystem={false}>
-          <ConditionalNavbar />
-          {children}
-        </ThemeProvider>
+        <ConditionalNavbar />
+        {children}
       </body>
     </html>
   )
