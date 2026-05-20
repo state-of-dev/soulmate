@@ -14,8 +14,6 @@ import { Mail, Phone, MapPin } from "lucide-react"
 
 export default function ContactSection() {
   const [formStatus, setFormStatus] = useState<"idle" | "submitting" | "success" | "error">("idle")
-  const [weddingMonth, setWeddingMonth] = useState("")
-  const [weddingYear, setWeddingYear] = useState("")
 
   const months = [
     ["01", "Enero"],
@@ -32,33 +30,14 @@ export default function ContactSection() {
     ["12", "Diciembre"],
   ]
   const today = new Date()
-  const minTentativeDate = new Date(today.getFullYear(), today.getMonth() + 1, 1)
-  const minYear = minTentativeDate.getFullYear()
-  const minMonth = minTentativeDate.getMonth() + 1
-  const currentYear = today.getFullYear()
-  const currentMonth = today.getMonth() + 1
-  const years = Array.from({ length: 6 }, (_, index) => String(minYear + index))
-  const isMonthDisabled = (month: string) => {
-    if (!weddingYear) return false
-    return Number(weddingYear) === minYear && Number(month) < minMonth
-  }
-  const isYearDisabled = (year: string) => {
-    return Number(year) === currentYear && !!weddingMonth && Number(weddingMonth) <= currentMonth
-  }
-  const handleWeddingMonthChange = (month: string) => {
-    setWeddingMonth(month)
+  const tentativeMonths = Array.from({ length: 36 }, (_, index) => {
+    const date = new Date(today.getFullYear(), today.getMonth() + 1 + index, 1)
+    const month = String(date.getMonth() + 1).padStart(2, "0")
+    const year = String(date.getFullYear())
+    const label = `${months[date.getMonth()][1]} ${year}`
 
-    if (Number(weddingYear) === currentYear && Number(month) <= currentMonth) {
-      setWeddingYear("")
-    }
-  }
-  const handleWeddingYearChange = (year: string) => {
-    setWeddingYear(year)
-
-    if (Number(year) === minYear && weddingMonth && Number(weddingMonth) < minMonth) {
-      setWeddingMonth("")
-    }
-  }
+    return { value: `${year}-${month}`, label }
+  })
 
   const { ref, inView } = useInView({
     threshold: 0.1,
@@ -76,8 +55,6 @@ export default function ContactSection() {
       setTimeout(() => {
         setFormStatus("idle")
         ;(e.target as HTMLFormElement).reset()
-        setWeddingMonth("")
-        setWeddingYear("")
       }, 3000)
     }, 1500)
   }
@@ -137,29 +114,16 @@ export default function ContactSection() {
                 </div>
                 <div className="space-y-2">
                   <Label className="font-mono text-[11px] uppercase tracking-[0.16em] text-neutral-500">Fecha del Evento</Label>
-                  <input type="hidden" name="weddingMonth" value={weddingMonth && weddingYear ? `${weddingYear}-${weddingMonth}` : ""} />
-                  <div className="grid grid-cols-[1fr_104px] gap-2">
-                    <Select value={weddingMonth} onValueChange={handleWeddingMonthChange} disabled={formStatus === "submitting"}>
-                      <SelectTrigger>
-                        <SelectValue placeholder="Mes" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        {months.map(([value, label]) => (
-                          <SelectItem key={value} value={value} disabled={isMonthDisabled(value)}>{label}</SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                    <Select value={weddingYear} onValueChange={handleWeddingYearChange} disabled={formStatus === "submitting"}>
-                      <SelectTrigger>
-                        <SelectValue placeholder="Año" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        {years.map((year) => (
-                          <SelectItem key={year} value={year} disabled={isYearDisabled(year)}>{year}</SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                  </div>
+                  <Select name="weddingMonth" disabled={formStatus === "submitting"}>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Selecciona mes tentativo" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {tentativeMonths.map((item) => (
+                        <SelectItem key={item.value} value={item.value}>{item.label}</SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
                 </div>
               </div>
 
