@@ -26,7 +26,7 @@
     }
   },
   "about": {
-    "title": "Quiénes Somox",
+    "title": "Quiénes Somos",
     "sections": {
       "style": {
         "title": "Nuestro Estilo",
@@ -132,7 +132,7 @@
     }
   },
   "navigation": {
-    "logo": "Momentos Eternoxx",
+    "logo": "Momentos Eternos",
     "links": [
       {
         "name": "Inicio",
