@@ -2,7 +2,7 @@
 
 import type React from "react"
 
-import { useState, useEffect } from "react"
+import { useState } from "react"
 import Image from "next/image"
 import Link from "next/link"
 import { Menu, X } from "lucide-react"
@@ -11,20 +11,6 @@ import { useContent } from "@/hooks/useContent"
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false)
-  const [isScrolled, setIsScrolled] = useState(false)
-
-  useEffect(() => {
-    const handleScroll = () => {
-      if (window.scrollY > 10) {
-        setIsScrolled(true)
-      } else {
-        setIsScrolled(false)
-      }
-    }
-
-    window.addEventListener("scroll", handleScroll)
-    return () => window.removeEventListener("scroll", handleScroll)
-  }, [])
 
   const content = useContent()
   
@@ -49,11 +35,7 @@ export default function Navbar() {
   }
 
   return (
-    <header
-      className={`sticky left-0 right-0 top-0 z-50 border-b border-border transition-colors duration-300 ${
-        isScrolled ? "bg-black/90 backdrop-blur-xl" : "bg-black/70 backdrop-blur-sm"
-      }`}
-    >
+    <header className="sticky left-0 right-0 top-0 z-50 border-b border-border bg-black">
       <div className="grid h-[72px] grid-cols-[1fr_auto] items-center px-4 md:grid-cols-[1fr_auto_1fr] md:px-8">
         <nav className="contents">
           <div className="hidden items-center gap-8 md:flex">
