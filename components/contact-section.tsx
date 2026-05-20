@@ -116,7 +116,7 @@ export default function ContactSection() {
                   <Label className="font-mono text-[11px] uppercase tracking-[0.16em] text-neutral-500">Fecha del Evento</Label>
                   <Select name="weddingMonth" disabled={formStatus === "submitting"}>
                     <SelectTrigger>
-                      <SelectValue placeholder="Selecciona mes tentativo" />
+                      <SelectValue placeholder="Selecciona mes y año" />
                     </SelectTrigger>
                     <SelectContent>
                       {tentativeMonths.map((item) => (
