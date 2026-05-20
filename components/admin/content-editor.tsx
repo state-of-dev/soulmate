@@ -147,7 +147,6 @@ export default function ContentEditor() {
             { name: "Inicio", href: "#inicio" },
             { name: "Quiénes Somos", href: "#quienes-somos" },
             { name: "Portafolio", href: "#portafolio" },
-            { name: "Paquetes", href: "#paquetes" },
             { name: "Contáctanos", href: "#contacto" }
           ]
         }

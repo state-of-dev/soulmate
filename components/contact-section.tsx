@@ -128,21 +128,6 @@ export default function ContactSection() {
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="package" className="font-mono text-[11px] uppercase tracking-[0.16em] text-neutral-500">Paquete de Interés</Label>
-                <Select disabled={formStatus === "submitting"}>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Selecciona un paquete" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="essential">Esencial</SelectItem>
-                    <SelectItem value="classic">Clásico</SelectItem>
-                    <SelectItem value="exclusive">Exclusivo</SelectItem>
-                    <SelectItem value="custom">Personalizado</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-
-              <div className="space-y-2">
                 <Label htmlFor="message" className="font-mono text-[11px] uppercase tracking-[0.16em] text-neutral-500">Mensaje</Label>
                 <Textarea
                   id="message"
@@ -208,7 +193,7 @@ export default function ContactSection() {
                     <p className="text-sm leading-6 text-neutral-300">
                       CDMX, México
                       <br />
-                      (Disponibles para viajes nacionales e internacionales)
+                      {/* (Disponibles para viajes nacionales e internacionales) */}
                     </p>
                   </div>
                 </div>

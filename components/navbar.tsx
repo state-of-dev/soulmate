@@ -33,7 +33,7 @@ export default function Navbar() {
     return null // or a loading skeleton
   }
   
-  const navLinks = content.navigation.links
+  const navLinks = content.navigation.links.filter((link) => link.href !== "#paquetes")
 
   const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
     e.preventDefault()
@@ -57,7 +57,7 @@ export default function Navbar() {
       <div className="grid h-[72px] grid-cols-[1fr_auto] items-center px-4 md:grid-cols-[1fr_auto_1fr] md:px-8">
         <nav className="contents">
           <div className="hidden items-center gap-8 md:flex">
-            {navLinks.slice(1, 4).map((link) => (
+            {navLinks.slice(1, 3).map((link) => (
               <Link
                 key={link.name}
                 href={link.href}
