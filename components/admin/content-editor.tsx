@@ -98,7 +98,6 @@ interface ContentData {
       email: string
       phone: string
       date: string
-      package: string
       message: string
       submit: string
     }
@@ -175,7 +174,6 @@ export default function ContentEditor() {
             email: "tu@email.com",
             phone: "+34 600 000 000",
             date: "Selecciona una fecha",
-            package: "Selecciona un paquete",
             message: "Cuéntanos sobre tu boda y cualquier detalle importante...",
             submit: "Solicitar Cotización"
           },
@@ -221,7 +219,6 @@ export default function ContentEditor() {
           email: "tu@email.com",
           phone: "+34 600 000 000",
           date: "Selecciona una fecha",
-          package: "Selecciona un paquete",
           message: "Cuéntanos sobre tu boda y cualquier detalle importante...",
           submit: "Solicitar Cotización"
         }
@@ -749,21 +746,12 @@ export default function ContentEditor() {
                     </div>
                   </div>
 
-                  <div className="grid grid-cols-2 gap-4 mt-4">
-                    <div>
-                      <Label>Placeholder - Paquete</Label>
-                      <Input
-                        value={content.contact.form.package}
-                        onChange={(e) => updateContent('contact.form.package', e.target.value)}
-                      />
-                    </div>
-                    <div>
-                      <Label>Placeholder - Mensaje</Label>
-                      <Input
-                        value={content.contact.form.message}
-                        onChange={(e) => updateContent('contact.form.message', e.target.value)}
-                      />
-                    </div>
+                  <div className="mt-4">
+                    <Label>Placeholder - Mensaje</Label>
+                    <Input
+                      value={content.contact.form.message}
+                      onChange={(e) => updateContent('contact.form.message', e.target.value)}
+                    />
                   </div>
                 </div>
 
