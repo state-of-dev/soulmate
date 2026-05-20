@@ -3,6 +3,7 @@
 import type React from "react"
 
 import { useState, useEffect } from "react"
+import Image from "next/image"
 import Link from "next/link"
 import { Menu, X } from "lucide-react"
 import { Button } from "@/components/ui/button"
@@ -68,11 +69,20 @@ export default function Navbar() {
             ))}
           </div>
 
-          <Link href="#inicio" className="justify-self-start md:justify-self-center" onClick={(e) => handleNavClick(e, "#inicio")}>
-            <div className="flex items-center gap-2 text-lg font-semibold tracking-[-0.04em] text-white">
-              <span>{content.navigation.logo}</span>
-              <span className="border border-white px-1 py-0.5 font-mono text-[9px] font-semibold tracking-normal">CDMX</span>
-            </div>
+          <Link
+            href="#inicio"
+            className="justify-self-start md:justify-self-center"
+            onClick={(e) => handleNavClick(e, "#inicio")}
+            aria-label="Soulmate inicio"
+          >
+            <Image
+              src="/logo-navbar.png"
+              alt="Soulmate"
+              width={220}
+              height={82}
+              priority
+              className="h-10 w-auto object-contain md:h-12"
+            />
           </Link>
 
           <div className="hidden items-center justify-end gap-8 md:flex">
