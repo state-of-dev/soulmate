@@ -81,10 +81,10 @@ function getContentType(filename: string): string {
 
 // URLs de medios por defecto para desarrollo
 export const DEFAULT_MEDIA = {
-  heroImage: '/media/hero-imagen.png',
-  aboutStyle: '/media/about-estilo.png',
-  aboutWork: '/media/about-trabajo.png',
-  tabImages: Array.from({length: 6}, (_, i) => `/media/tab-imagenes-${i + 1}.png`),
-  tabGifs: Array.from({length: 3}, (_, i) => `/media/tab-gif-${i + 1}.gif`),
+  heroImage: '/placeholder.jpg',
+  aboutStyle: '/placeholder.jpg',
+  aboutWork: '/placeholder.jpg',
+  tabImages: Array.from({length: 6}, () => '/placeholder.jpg'),
+  tabGifs: Array.from({length: 3}, () => '/placeholder.jpg'),
   recapVideo: 'https://www.youtube-nocookie.com/embed/6L0xLhs5_fg'
 }

@@ -7,7 +7,6 @@ import { useContent } from "@/hooks/useContent"
 import { useMediaUrls } from "@/hooks/useMediaUrls"
 
 export default function HeroSection() {
-  const [mounted, setMounted] = useState(false)
   const [currentIndex, setCurrentIndex] = useState(0)
 
   const content = useContent()
@@ -15,7 +14,6 @@ export default function HeroSection() {
   const services = content.hero.services
 
   useEffect(() => {
-    setMounted(true)
     const interval = setInterval(() => {
       setCurrentIndex((prev) => (prev + 1) % services.length)
     }, 2000) // Cambia cada 2 segundos
@@ -23,7 +21,19 @@ export default function HeroSection() {
     return () => clearInterval(interval)
   }, [services.length])
 
-  if (!mounted) return null
+  useEffect(() => {
+    if (!mediaUrls.aboutWork || mediaUrls.aboutWork === "/placeholder.jpg") return
+
+    const link = document.createElement("link")
+    link.rel = "preload"
+    link.as = "image"
+    link.href = mediaUrls.aboutWork
+    document.head.appendChild(link)
+
+    return () => {
+      document.head.removeChild(link)
+    }
+  }, [mediaUrls.aboutWork])
 
   const textVariants = {
     enter: {
