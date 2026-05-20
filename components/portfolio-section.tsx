@@ -110,7 +110,7 @@ export default function PortfolioSection() {
     <section id="portafolio" className="section-padding border-b border-border bg-black">
       <div className="container mx-auto px-4">
         <div className="mono-label text-center">02 / Selected work</div>
-        <h2 className="section-title">{content.portfolio.title}</h2>
+        <h2 className="section-title distort-title" data-text={content.portfolio.title}>{content.portfolio.title}</h2>
         <div className="decorative-line" />
         <p className="section-subtitle">
           {content.portfolio.subtitle}
@@ -187,7 +187,7 @@ export default function PortfolioSection() {
                     <div className="grid gap-4 p-6 md:grid-cols-[240px_1fr]">
                       <div className="mono-label">Featured recap</div>
                       <div>
-                      <h3 className="mb-2 text-3xl font-semibold tracking-[-0.05em] text-white">{content.portfolio.recap.title}</h3>
+                      <h3 className="distort-title mb-2 text-3xl font-semibold tracking-[-0.05em] text-white" data-text={content.portfolio.recap.title}>{content.portfolio.recap.title}</h3>
                       <p className="max-w-2xl text-neutral-400">
                         {content.portfolio.recap.description}
                       </p>
@@ -226,7 +226,7 @@ export default function PortfolioSection() {
                       </div>
                       <div className="p-5">
                         <div className="mb-3 font-mono text-[10px] uppercase tracking-[0.16em] text-neutral-500">Film / {String(index + 1).padStart(2, "0")}</div>
-                        <h3 className="text-xl font-semibold tracking-[-0.04em] text-white">{video.title}</h3>
+                        <h3 className="distort-title text-xl font-semibold tracking-[-0.04em] text-white" data-text={video.title}>{video.title}</h3>
                         <p className="mt-2 text-sm leading-6 text-neutral-400">{video.description}</p>
                       </div>
                     </div>
@@ -252,7 +252,7 @@ export default function PortfolioSection() {
                         <Image src={item.image || "/placeholder.svg"} alt={item.title} fill className="object-cover object-top grayscale transition duration-500 group-hover:grayscale-0" />
                         <div className="absolute inset-0 bg-gradient-to-t from-black via-black/30 to-transparent" />
                         <div className="absolute bottom-0 left-0 right-0 border-t border-white/15 bg-black/70 p-5 text-white backdrop-blur-sm">
-                          <h3 className="text-lg font-semibold tracking-[-0.04em]">{item.title}</h3>
+                          <h3 className="distort-title text-lg font-semibold tracking-[-0.04em]" data-text={item.title}>{item.title}</h3>
                           <p className="mt-1 font-mono text-xs leading-5 text-neutral-400">{item.description}</p>
                         </div>
                       </div>

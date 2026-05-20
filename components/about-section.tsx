@@ -38,7 +38,7 @@ export default function AboutSection() {
     <section id="quienes-somos" className="section-padding border-b border-border bg-black">
       <div className="container mx-auto px-4">
         <div className="mono-label text-center">01 / Studio operating system</div>
-        <h2 className="section-title">{content.about.title}</h2>
+        <h2 className="section-title distort-title" data-text={content.about.title}>{content.about.title}</h2>
         <div className="decorative-line" />
 
         <motion.div
@@ -55,7 +55,7 @@ export default function AboutSection() {
                   <Camera className="h-5 w-5 text-neutral-400" />
                   <span className="mono-label">Visual direction</span>
                 </div>
-                <h3 className="text-3xl font-semibold tracking-[-0.05em] text-white md:text-5xl">{content.about.sections.style.title}</h3>
+                <h3 className="distort-title text-3xl font-semibold tracking-[-0.05em] text-white md:text-5xl" data-text={content.about.sections.style.title}>{content.about.sections.style.title}</h3>
               </div>
               <div className="p-6 md:p-8">
                 {content.about.sections.style.paragraphs.map((paragraph, index) => (
@@ -106,7 +106,7 @@ export default function AboutSection() {
                   <Heart className="h-5 w-5 text-neutral-400" />
                   <span className="mono-label">Process</span>
                 </div>
-                <h3 className="text-3xl font-semibold tracking-[-0.05em] text-white md:text-5xl">{content.about.sections.work.title}</h3>
+                <h3 className="distort-title text-3xl font-semibold tracking-[-0.05em] text-white md:text-5xl" data-text={content.about.sections.work.title}>{content.about.sections.work.title}</h3>
               </div>
               <div className="p-6 md:p-8">
                 <p className="mb-8 max-w-xl text-base leading-7 text-neutral-400 md:text-lg">
@@ -118,7 +118,7 @@ export default function AboutSection() {
                     <div className="border-r border-border p-4 font-mono text-xs text-neutral-500">{String(index + 1).padStart(2, "0")}</div>
                     <div>
                       <div className="p-4">
-                      <h4 className="mb-1 font-semibold text-white">{step.title}</h4>
+                      <h4 className="distort-title mb-1 font-semibold text-white" data-text={step.title}>{step.title}</h4>
                       <p className="text-sm leading-6 text-neutral-400">
                         {step.description}
                       </p>

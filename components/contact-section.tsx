@@ -63,7 +63,7 @@ export default function ContactSection() {
     <section id="contacto" className="section-padding border-b border-border bg-black">
       <div className="container mx-auto px-4">
         <div className="mono-label text-center">04 / Start the brief</div>
-        <h2 className="section-title">Contáctanos</h2>
+        <h2 className="section-title distort-title" data-text="Contáctanos">Contáctanos</h2>
         <div className="decorative-line" />
         <p className="section-subtitle">
           Cuéntanos sobre tu boda y cómo podemos ayudarte a capturar esos momentos especiales
@@ -79,7 +79,7 @@ export default function ContactSection() {
           <div className="border-b border-border bg-black lg:border-b-0 lg:border-r">
             <div className="border-b border-border p-6 md:p-8">
               <div className="mono-label mb-4">Request quote</div>
-              <h3 className="text-3xl font-semibold tracking-[-0.05em] text-white md:text-5xl">Solicita una Cotización</h3>
+              <h3 className="distort-title text-3xl font-semibold tracking-[-0.05em] text-white md:text-5xl" data-text="Solicita una Cotización">Solicita una Cotización</h3>
             </div>
 
             <form onSubmit={handleSubmit} className="space-y-6 p-6 md:p-8">
@@ -163,7 +163,7 @@ export default function ContactSection() {
           <div className="flex flex-col bg-neutral-950/50">
             <div className="border-b border-border p-6 md:p-8">
               <div className="mono-label mb-4">Project summary</div>
-              <h3 className="mb-6 text-3xl font-semibold tracking-[-0.05em] text-white">Información de Contacto</h3>
+              <h3 className="distort-title mb-6 text-3xl font-semibold tracking-[-0.05em] text-white" data-text="Información de Contacto">Información de Contacto</h3>
 
               <div className="divide-y divide-border border border-border">
                 <div className="flex items-start gap-4 p-4">
@@ -201,7 +201,7 @@ export default function ContactSection() {
             </div>
 
             <div className="p-6 md:p-8">
-              <h3 className="mb-4 text-2xl font-semibold tracking-[-0.05em] text-white">Horario de Atención</h3>
+              <h3 className="distort-title mb-4 text-2xl font-semibold tracking-[-0.05em] text-white" data-text="Horario de Atención">Horario de Atención</h3>
               <p className="mb-4 font-mono text-sm leading-6 text-neutral-400">Estamos disponibles para consultas y reuniones:</p>
 
               <div className="divide-y divide-border border border-border font-mono text-xs text-neutral-300">
