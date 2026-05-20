@@ -31,8 +31,34 @@ export default function ContactSection() {
     ["11", "Noviembre"],
     ["12", "Diciembre"],
   ]
-  const currentYear = new Date().getFullYear()
-  const years = Array.from({ length: 6 }, (_, index) => String(currentYear + index))
+  const today = new Date()
+  const minTentativeDate = new Date(today.getFullYear(), today.getMonth() + 1, 1)
+  const minYear = minTentativeDate.getFullYear()
+  const minMonth = minTentativeDate.getMonth() + 1
+  const currentYear = today.getFullYear()
+  const currentMonth = today.getMonth() + 1
+  const years = Array.from({ length: 6 }, (_, index) => String(minYear + index))
+  const isMonthDisabled = (month: string) => {
+    if (!weddingYear) return false
+    return Number(weddingYear) === minYear && Number(month) < minMonth
+  }
+  const isYearDisabled = (year: string) => {
+    return Number(year) === currentYear && !!weddingMonth && Number(weddingMonth) <= currentMonth
+  }
+  const handleWeddingMonthChange = (month: string) => {
+    setWeddingMonth(month)
+
+    if (Number(weddingYear) === currentYear && Number(month) <= currentMonth) {
+      setWeddingYear("")
+    }
+  }
+  const handleWeddingYearChange = (year: string) => {
+    setWeddingYear(year)
+
+    if (Number(year) === minYear && weddingMonth && Number(weddingMonth) < minMonth) {
+      setWeddingMonth("")
+    }
+  }
 
   const { ref, inView } = useInView({
     threshold: 0.1,
@@ -113,23 +139,23 @@ export default function ContactSection() {
                   <Label className="font-mono text-[11px] uppercase tracking-[0.16em] text-neutral-500">Fecha del Evento</Label>
                   <input type="hidden" name="weddingMonth" value={weddingMonth && weddingYear ? `${weddingYear}-${weddingMonth}` : ""} />
                   <div className="grid grid-cols-[1fr_104px] gap-2">
-                    <Select value={weddingMonth} onValueChange={setWeddingMonth} disabled={formStatus === "submitting"}>
+                    <Select value={weddingMonth} onValueChange={handleWeddingMonthChange} disabled={formStatus === "submitting"}>
                       <SelectTrigger>
                         <SelectValue placeholder="Mes" />
                       </SelectTrigger>
                       <SelectContent>
                         {months.map(([value, label]) => (
-                          <SelectItem key={value} value={value}>{label}</SelectItem>
+                          <SelectItem key={value} value={value} disabled={isMonthDisabled(value)}>{label}</SelectItem>
                         ))}
                       </SelectContent>
                     </Select>
-                    <Select value={weddingYear} onValueChange={setWeddingYear} disabled={formStatus === "submitting"}>
+                    <Select value={weddingYear} onValueChange={handleWeddingYearChange} disabled={formStatus === "submitting"}>
                       <SelectTrigger>
                         <SelectValue placeholder="Año" />
                       </SelectTrigger>
                       <SelectContent>
                         {years.map((year) => (
-                          <SelectItem key={year} value={year}>{year}</SelectItem>
+                          <SelectItem key={year} value={year} disabled={isYearDisabled(year)}>{year}</SelectItem>
                         ))}
                       </SelectContent>
                     </Select>
