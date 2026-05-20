@@ -3,7 +3,7 @@
 import { motion } from "framer-motion"
 import Image from "next/image"
 import { useInView } from "react-intersection-observer"
-import { Camera, Heart, Users, Award } from "lucide-react"
+import { Camera, Heart } from "lucide-react"
 import { useContent } from "@/hooks/useContent"
 import { useMediaUrls } from "@/hooks/useMediaUrls"
 
@@ -85,9 +85,6 @@ export default function AboutSection() {
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent" />
               </div>
-              <div className="absolute bottom-0 right-0 border-l border-t border-border bg-black p-5">
-                <Award className="h-5 w-5 text-white" />
-              </div>
             </div>
           </motion.div>
 
@@ -101,9 +98,6 @@ export default function AboutSection() {
                   className="object-cover"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent" />
-              </div>
-              <div className="absolute bottom-0 left-0 border-r border-t border-border bg-black p-5">
-                <Users className="h-5 w-5 text-white" />
               </div>
             </div>
             <div>
