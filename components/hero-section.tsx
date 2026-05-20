@@ -4,15 +4,14 @@ import { useEffect, useState } from "react"
 import { Button } from "@/components/ui/button"
 import { motion, AnimatePresence } from "framer-motion"
 import { useContent } from "@/hooks/useContent"
-import { useMediaUrls } from "@/hooks/useMediaUrls"
+
+const HERO_TILE_WEBP =
+  "/media/hero-tile.webp"
 
 export default function HeroSection() {
   const [currentIndex, setCurrentIndex] = useState(0)
-  const [heroImageLoaded, setHeroImageLoaded] = useState(false)
-  const [showHeroLoading, setShowHeroLoading] = useState(true)
 
   const content = useContent()
-  const mediaUrls = useMediaUrls()
   const services = content.hero.services
 
   useEffect(() => {
@@ -23,62 +22,8 @@ export default function HeroSection() {
     return () => clearInterval(interval)
   }, [services.length])
 
-  const heroTileUrl = mediaUrls.aboutWork
-  const isFallbackHeroTile = heroTileUrl.startsWith("/media/")
-
-  useEffect(() => {
-    if (!heroTileUrl) return
-
-    if (isFallbackHeroTile) {
-      setHeroImageLoaded(false)
-      setShowHeroLoading(true)
-      return
-    }
-
-    setHeroImageLoaded(false)
-    setShowHeroLoading(true)
-    let firstFrame = 0
-    let secondFrame = 0
-
-    const finishLoading = () => {
-      setHeroImageLoaded(true)
-      firstFrame = window.requestAnimationFrame(() => {
-        secondFrame = window.requestAnimationFrame(() => {
-          setShowHeroLoading(false)
-        })
-      })
-    }
-
-    const timeout = window.setTimeout(() => {
-      finishLoading()
-    }, 4000)
-
-    const image = new Image()
-    image.src = heroTileUrl
-    image.onload = async () => {
-      window.clearTimeout(timeout)
-      try {
-        await image.decode()
-      } catch {
-        // Some browsers reject decode for cached images; onload is enough.
-      }
-      finishLoading()
-    }
-    image.onerror = () => {
-      window.clearTimeout(timeout)
-      finishLoading()
-    }
-
-    return () => {
-      window.clearTimeout(timeout)
-      window.cancelAnimationFrame(firstFrame)
-      window.cancelAnimationFrame(secondFrame)
-    }
-  }, [heroTileUrl, isFallbackHeroTile])
-
-  const heroBackgroundImage = heroImageLoaded
-    ? `linear-gradient(rgba(0, 0, 0, 0.82), rgba(0, 0, 0, 0.92)), url('${heroTileUrl}')`
-    : "none"
+  const heroTileUrl = HERO_TILE_WEBP
+  const heroBackgroundImage = `linear-gradient(rgba(0, 0, 0, 0.82), rgba(0, 0, 0, 0.92)), url('${heroTileUrl}')`
 
   const textVariants = {
     enter: {
@@ -121,27 +66,8 @@ export default function HeroSection() {
           backgroundPosition: "top left",
           backgroundRepeat: "repeat",
           backgroundSize: "80px auto",
-          opacity: heroImageLoaded ? 1 : 0,
         }}
       />
-      {showHeroLoading && (
-        <div className="absolute inset-0 z-20 flex justify-center bg-black px-6 pt-[18vh] md:pt-[20vh]">
-          <div className="w-full max-w-[360px] self-start border border-border bg-black">
-            <div className="border-b border-border p-4 text-center font-mono text-[10px] uppercase tracking-[0.18em] text-neutral-500">
-              Loading visual system
-            </div>
-            <div className="grid grid-cols-6 gap-px bg-border p-px">
-              {Array.from({ length: 24 }).map((_, index) => (
-                <div
-                  key={index}
-                  className="h-12 animate-pulse bg-neutral-950"
-                  style={{ animationDelay: `${index * 45}ms` }}
-                />
-              ))}
-            </div>
-          </div>
-        </div>
-      )}
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(255,255,255,0.16),transparent_34%),linear-gradient(to_bottom,transparent,black_85%)]" />
       <div className="absolute bottom-0 left-0 right-0 h-px bg-border" />
 

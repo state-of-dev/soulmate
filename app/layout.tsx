@@ -30,6 +30,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="es" className="dark scroll-smooth">
+      <head>
+        <link rel="preload" as="image" href="/media/hero-tile.webp" />
+      </head>
       <body className={`${geist.variable} ${geistMono.variable} ${jetbrains.variable} font-sans`}>
         <ConditionalNavbar />
         {children}
