@@ -18,9 +18,50 @@ const jetbrains = JetBrains_Mono({
 })
 
 export const metadata: Metadata = {
-  title: "Momentos Eternos | Wedding Film Studio",
+  metadataBase: new URL("https://soulmate-sh.vercel.app"),
+  title: "Soulmate | Wedding Film Studio",
   description: "Cinematic wedding films with a sharp editorial language from CDMX.",
-  generator: "v0.dev",
+  applicationName: "Soulmate",
+  authors: [{ name: "Soulmate" }],
+  creator: "Soulmate",
+  publisher: "Soulmate",
+  alternates: {
+    canonical: "https://soulmate-sh.vercel.app",
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-image-preview": "large",
+    },
+  },
+  icons: {
+    icon: [{ url: "/icon.svg", type: "image/svg+xml" }],
+  },
+  openGraph: {
+    title: "Soulmate | Wedding Film Studio",
+    description: "Cinematic wedding films with a sharp editorial language from CDMX.",
+    url: "https://soulmate-sh.vercel.app",
+    siteName: "Soulmate",
+    images: [
+      {
+        url: "https://soulmate-sh.vercel.app/opengraph-image",
+        width: 1200,
+        height: 630,
+        alt: "Soulmate",
+      },
+    ],
+    locale: "es_MX",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Soulmate | Wedding Film Studio",
+    description: "Cinematic wedding films with a sharp editorial language from CDMX.",
+    images: ["https://soulmate-sh.vercel.app/opengraph-image"],
+  },
 }
 
 export default function RootLayout({
