@@ -10,15 +10,29 @@ import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Calendar } from "@/components/ui/calendar"
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
-import { format } from "date-fns"
-import { es } from "date-fns/locale"
-import { CalendarIcon, Mail, Phone, MapPin } from "lucide-react"
+import { Mail, Phone, MapPin } from "lucide-react"
 
 export default function ContactSection() {
-  const [date, setDate] = useState<Date | undefined>(undefined)
   const [formStatus, setFormStatus] = useState<"idle" | "submitting" | "success" | "error">("idle")
+  const [weddingMonth, setWeddingMonth] = useState("")
+  const [weddingYear, setWeddingYear] = useState("")
+
+  const months = [
+    ["01", "Enero"],
+    ["02", "Febrero"],
+    ["03", "Marzo"],
+    ["04", "Abril"],
+    ["05", "Mayo"],
+    ["06", "Junio"],
+    ["07", "Julio"],
+    ["08", "Agosto"],
+    ["09", "Septiembre"],
+    ["10", "Octubre"],
+    ["11", "Noviembre"],
+    ["12", "Diciembre"],
+  ]
+  const currentYear = new Date().getFullYear()
+  const years = Array.from({ length: 6 }, (_, index) => String(currentYear + index))
 
   const { ref, inView } = useInView({
     threshold: 0.1,
@@ -36,7 +50,8 @@ export default function ContactSection() {
       setTimeout(() => {
         setFormStatus("idle")
         ;(e.target as HTMLFormElement).reset()
-        setDate(undefined)
+        setWeddingMonth("")
+        setWeddingYear("")
       }, 3000)
     }, 1500)
   }
@@ -95,28 +110,30 @@ export default function ContactSection() {
                   <Input id="phone" name="phone" placeholder="+34 600 000 000" disabled={formStatus === "submitting"} />
                 </div>
                 <div className="space-y-2">
-                  <Label className="font-mono text-[11px] uppercase tracking-[0.16em] text-neutral-500">Fecha de la Boda</Label>
-                  <Popover>
-                    <PopoverTrigger asChild>
-                      <Button
-                        variant="outline"
-                        className="w-full justify-start text-left font-mono normal-case tracking-normal"
-                        disabled={formStatus === "submitting"}
-                      >
-                        <CalendarIcon className="mr-2 h-4 w-4" />
-                        {date ? format(date, "PPP", { locale: es }) : <span>Selecciona una fecha</span>}
-                      </Button>
-                    </PopoverTrigger>
-                    <PopoverContent className="w-auto p-0">
-                      <Calendar
-                        mode="single"
-                        selected={date}
-                        onSelect={setDate}
-                        initialFocus
-                        disabled={(date) => date < new Date()}
-                      />
-                    </PopoverContent>
-                  </Popover>
+                  <Label className="font-mono text-[11px] uppercase tracking-[0.16em] text-neutral-500">Fecha del Evento</Label>
+                  <input type="hidden" name="weddingMonth" value={weddingMonth && weddingYear ? `${weddingYear}-${weddingMonth}` : ""} />
+                  <div className="grid grid-cols-[1fr_104px] gap-2">
+                    <Select value={weddingMonth} onValueChange={setWeddingMonth} disabled={formStatus === "submitting"}>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Mes" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {months.map(([value, label]) => (
+                          <SelectItem key={value} value={value}>{label}</SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                    <Select value={weddingYear} onValueChange={setWeddingYear} disabled={formStatus === "submitting"}>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Año" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {years.map((year) => (
+                          <SelectItem key={year} value={year}>{year}</SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
                 </div>
               </div>
 
