@@ -1,4 +1,5 @@
 import Link from "next/link"
+import Image from "next/image"
 import { Instagram, Facebook, Youtube } from "lucide-react"
 
 export default function Footer() {
@@ -9,7 +10,15 @@ export default function Footer() {
       <div className="container mx-auto px-4">
         <div className="mb-8 grid grid-cols-1 gap-8 border-y border-border py-8 md:grid-cols-2 lg:grid-cols-4">
           <div>
-            <div className="mb-4 text-2xl font-semibold tracking-[-0.05em] text-white">Momentos Eternos</div>
+            <Link href="#inicio" aria-label="Soulmate inicio">
+              <Image
+                src="/logo-navbar.png"
+                alt="Soulmate"
+                width={220}
+                height={82}
+                className="mb-4 h-12 w-auto object-contain"
+              />
+            </Link>
             <p className="mb-4 max-w-xs font-mono text-sm leading-6 text-neutral-500">
               Capturamos los momentos más especiales de tu vida con un estilo cinematográfico único.
             </p>
@@ -49,11 +58,6 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
-                <Link href="#paquetes" className="transition-colors hover:text-white">
-                  Paquetes
-                </Link>
-              </li>
-              <li>
                 <Link href="#contacto" className="transition-colors hover:text-white">
                   Contáctanos
                 </Link>
@@ -80,9 +84,9 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
-                <Link href="#" className="transition-colors hover:text-white">
+                {/* <Link href="#" className="transition-colors hover:text-white">
                   Álbumes Personalizados
-                </Link>
+                </Link> */}
               </li>
               <li>
                 <Link href="#" className="transition-colors hover:text-white">
